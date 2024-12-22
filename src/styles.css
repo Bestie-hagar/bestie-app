@@ -1,0 +1,293 @@
+@import url("https://fonts.googleapis.com/css2?family=Varela+Round&display=swap");
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: "Varela Round", sans-serif;
+}
+
+.app {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #e6f3ff, #f0e6ff);
+  padding: 20px;
+  position: relative;
+  overflow: hidden;
+}
+
+/* עננים מרחפים */
+@keyframes float {
+  0% { transform: translateY(0px); }
+  50% { transform: translateY(-10px); }
+  100% { transform: translateY(0px); }
+}
+
+.floating-cloud {
+  position: absolute;
+  background: rgba(255, 255, 255, 0.3);
+  backdrop-filter: blur(8px);
+  border-radius: 50%;
+  animation: float 6s ease-in-out infinite;
+}
+
+.cloud-1 {
+  top: 10%;
+  right: 5%;
+  width: 100px;
+  height: 100px;
+  animation-delay: 0s;
+}
+
+.cloud-2 {
+  top: 30%;
+  left: 10%;
+  width: 80px;
+  height: 80px;
+  animation-delay: 1s;
+}
+
+.cloud-3 {
+  bottom: 20%;
+  right: 15%;
+  width: 120px;
+  height: 120px;
+  animation-delay: 2s;
+}
+
+/* כותרת ראשית */
+.header {
+  text-align: center;
+  margin-bottom: 30px;
+  color: #4a5568;
+  position: relative;
+  z-index: 1;
+}
+
+.header h1 {
+  font-size: 2.5rem;
+  margin-bottom: 10px;
+  color: #4a5568;
+}
+
+.header p {
+  font-size: 1.2rem;
+  color: #6b7280;
+}
+
+/* אזור הכרטיסים */
+.services-scroll {
+  overflow-x: auto;
+  padding: 20px 0;
+  scroll-behavior: smooth;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+  position: relative;
+  z-index: 1;
+}
+
+.services-scroll::-webkit-scrollbar {
+  display: none;
+}
+
+.services-container {
+  display: flex;
+  gap: 20px;
+  padding: 0 20px;
+}
+
+/* כרטיסי שירותים */
+.service-card {
+  flex: 0 0 300px;
+  padding: 25px;
+  background: rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(10px);
+  border-radius: 20px;
+  box-shadow: 0 8px 32px rgba(31, 38, 135, 0.15);
+  transition: all 0.3s ease;
+  border: 1px solid rgba(255, 255, 255, 0.4);
+}
+
+.service-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 12px 40px rgba(31, 38, 135, 0.2);
+}
+
+/* צבעים לכרטיסים */
+.service-card.rose { background: linear-gradient(135deg, #fff5f5, #ffe4e6); }
+.service-card.pink { background: linear-gradient(135deg, #fff5f7, #fce7f3); }
+.service-card.purple { background: linear-gradient(135deg, #f8f5ff, #ede9fe); }
+.service-card.blue { background: linear-gradient(135deg, #f0f9ff, #e0f2fe); }
+.service-card.green { background: linear-gradient(135deg, #f0fdf4, #dcfce7); }
+.service-card.yellow { background: linear-gradient(135deg, #fefce8, #fef9c3); }
+.service-card.indigo { background: linear-gradient(135deg, #eef2ff, #e0e7ff); }
+.service-card.teal { background: linear-gradient(135deg, #f0fdfa, #ccfbf1); }
+.service-card.cyan { background: linear-gradient(135deg, #ecfeff, #cffafe); }
+.service-card.violet { background: linear-gradient(135deg, #f5f3ff, #ede9fe); }
+
+.service-icon {
+  font-size: 2.5rem;
+  margin-bottom: 15px;
+  text-align: center;
+}
+
+.service-card h2 {
+  font-size: 1.5rem;
+  color: #4a5568;
+  margin-bottom: 10px;
+}
+
+.subtitle {
+  color: #6b7280;
+  margin-bottom: 15px;
+  font-size: 1rem;
+}
+
+.description {
+  color: #4a5568;
+  line-height: 1.6;
+  margin-bottom: 20px;
+}
+
+.details {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 20px;
+}
+
+.price {
+  font-weight: bold;
+  color: #4a5568;
+}
+
+.extra {
+  font-size: 0.9rem;
+  color: #6b7280;
+}
+
+/* כפתורים */
+.book-button {
+  width: 100%;
+  padding: 12px 20px;
+  border: none;
+  border-radius: 12px;
+  background: linear-gradient(135deg, #93c5fd, #818cf8);
+  color: white;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-weight: 500;
+  box-shadow: 0 4px 12px rgba(129, 140, 248, 0.2);
+}
+
+.book-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(129, 140, 248, 0.3);
+  background: linear-gradient(135deg, #60a5fa, #6366f1);
+}
+
+/* מודאל */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.modal-content {
+  background: white;
+  padding: 2rem;
+  border-radius: 1rem;
+  max-width: 500px;
+  width: 90%;
+  max-height: 90vh;
+  overflow-y: auto;
+}
+
+.modal-title {
+  text-align: center;
+  margin-bottom: 1.5rem;
+  color: #4a5568;
+}
+
+.modal-body {
+  text-align: center;
+}
+
+/* טופס */
+.booking-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.form-group label {
+  font-weight: 500;
+  color: #4a5568;
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+  padding: 0.5rem;
+  border: 1px solid #e2e8f0;
+  border-radius: 0.5rem;
+  font-size: 1rem;
+}
+
+.form-group textarea {
+  min-height: 100px;
+  resize: vertical;
+}
+
+.form-buttons {
+  display: flex;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.submit-button,
+.modal-button {
+  flex: 1;
+  padding: 0.75rem;
+  background: linear-gradient(135deg, #93c5fd, #818cf8);
+  color: white;
+  border: none;
+  border-radius: 0.5rem;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.submit-button:hover,
+.modal-button:hover {
+  background: linear-gradient(135deg, #60a5fa, #6366f1);
+}
+
+.cancel-button {
+  flex: 1;
+  padding: 0.75rem;
+  background: #f3f4f6;
+  color: #4b5563;
+  border: none;
+  border-radius: 0.5rem;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.cancel-button:hover {
+  background: #e5e7eb;
+}
