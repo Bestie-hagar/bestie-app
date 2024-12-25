@@ -1,274 +1,51 @@
 /* styles.css */
 
-@import url("https://fonts.googleapis.com/css2?family=Varela+Round&display=swap");
-
+/* מחלקות בסיס */
 * {
-  box-sizing: border-box;
   margin: 0;
   padding: 0;
+  box-sizing: border-box;
+}
+
+html, body {
+  width: 100%;
+  height: 100%;
   font-family: "Varela Round", sans-serif;
+  background: linear-gradient(135deg, #f0e6ff, #e6f3ff);
+  overflow-x: hidden;
 }
 
 .app {
   min-height: 100vh;
-  background: linear-gradient(135deg, #f0e6ff, #e6f3ff);
   padding: 20px;
   position: relative;
-  overflow: hidden;
 }
 
-/* לוגו בסטי: ניתן להתאים גודל */
-.logo img {
+/* כותרת (Header) */
+header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 2rem;
+}
+
+header img {
   max-width: 200px;
   width: auto;
   height: auto;
 }
 
-/* Floating Clouds Animation */
-@keyframes float {
-  0% {
-    transform: translateY(0) rotate(0deg);
-  }
-  50% {
-    transform: translateY(-15px) rotate(2deg);
-  }
-  100% {
-    transform: translateY(0) rotate(0deg);
-  }
-}
-
-.floating-cloud {
-  position: absolute;
-  background: rgba(255, 255, 255, 0.4);
-  backdrop-filter: blur(8px);
-  border-radius: 50%;
-  animation: float 6s ease-in-out infinite;
-  z-index: 0;
-}
-
-.cloud-1 {
-  top: 10%;
-  right: 5%;
-  width: 120px;
-  height: 120px;
-  animation-delay: 0s;
-}
-
-.cloud-2 {
-  top: 30%;
-  left: 10%;
-  width: 100px;
-  height: 100px;
-  animation-delay: 2s;
-}
-
-.cloud-3 {
-  bottom: 20%;
-  right: 15%;
-  width: 150px;
-  height: 150px;
-  animation-delay: 4s;
-}
-
-/* Header */
-.header {
-  text-align: center;
-  margin-bottom: 40px;
-  position: relative;
-  z-index: 1;
-}
-
-.header h1 {
+header h1 {
   font-size: 3rem;
-  margin-bottom: 15px;
   background: linear-gradient(45deg, #7c3aed, #3b82f6);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
 
-.header p {
-  font-size: 1.4rem;
+header p {
+  font-size: 1.2rem;
   color: #6b7280;
-}
-
-.header-actions {
-  margin-top: 20px;
-  display: flex;
-  justify-content: center;
-  gap: 20px;
-}
-
-.consultation-button,
-.bestie-button {
-  padding: 12px 24px;
-  border: none;
-  border-radius: 12px;
-  font-size: 1.1rem;
-  cursor: pointer;
-  transition: all 0.3s ease;
-}
-
-.consultation-button {
-  background: linear-gradient(135deg, #7c3aed, #3b82f6);
-  color: white;
-}
-
-.bestie-button {
-  background: white;
-  color: #7c3aed;
-  border: 2px solid #7c3aed;
-}
-
-/* Services Grid */
-.services-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  gap: 20px;
-  padding: 20px;
-  position: relative;
-  z-index: 1;
-}
-
-.service-tile {
-  aspect-ratio: 1;
-  cursor: pointer;
-  transition: all 0.3s ease;
-}
-
-.service-preview {
-  height: 100%;
-  background: rgba(255, 255, 255, 0.9);
-  backdrop-filter: blur(10px);
-  border-radius: 20px;
-  padding: 20px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  transition: all 0.3s ease;
-  border: 1px solid rgba(255, 255, 255, 0.4);
-}
-
-.service-preview:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 12px 40px rgba(31, 38, 135, 0.2);
-}
-
-.service-icon {
-  font-size: 2.5rem;
-  margin-bottom: 15px;
-}
-
-/* Packages Section */
-.packages-section {
-  margin-top: 60px;
-  padding: 40px 20px;
-  position: relative;
-  z-index: 1;
-}
-
-.packages-container {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: 30px;
-}
-
-.package-card {
-  background: rgba(255, 255, 255, 0.9);
-  backdrop-filter: blur(10px);
-  border-radius: 20px;
-  padding: 30px;
-  text-align: center;
-  transition: all 0.3s ease;
-}
-
-.package-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 12px 40px rgba(31, 38, 135, 0.2);
-}
-
-/* Modal Styles */
-.modal-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: rgba(0, 0, 0, 0.5);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 1000;
-  backdrop-filter: blur(5px);
-}
-
-.modal-content {
-  background: white;
-  padding: 2rem;
-  border-radius: 20px;
-  max-width: 500px;
-  width: 90%;
-  max-height: 90vh;
-  overflow-y: auto;
-}
-
-/* Form Styles */
-.form-group {
-  margin-bottom: 20px;
-}
-
-.form-group label {
-  display: block;
-  margin-bottom: 8px;
-  color: #4a5568;
-  font-weight: 500;
-}
-
-.form-group input,
-.form-group select,
-.form-group textarea {
-  width: 100%;
-  padding: 10px;
-  border: 2px solid #e2e8f0;
-  border-radius: 8px;
-  font-size: 1rem;
-  transition: all 0.3s ease;
-}
-
-.form-group input:focus,
-.form-group select:focus,
-.form-group textarea:focus {
-  outline: none;
-  border-color: #7c3aed;
-  box-shadow: 0 0 0 3px rgba(124, 58, 237, 0.1);
-}
-
-/* Buttons */
-.form-buttons {
-  display: flex;
-  gap: 15px;
-  margin-top: 30px;
-}
-
-.submit-button,
-.cancel-button {
-  flex: 1;
-  padding: 12px;
-  border: none;
-  border-radius: 8px;
-  font-size: 1rem;
-  cursor: pointer;
-  transition: all 0.3s ease;
-}
-
-.submit-button {
-  background: linear-gradient(135deg, #7c3aed, #3b82f6);
-  color: white;
-}
-
-.cancel-button {
-  background: #f3f4f6;
-  color: #4b5563;
 }
 
 /* כפתור גלוסי בגווני פסטל ורוד-סגלגל */
@@ -280,6 +57,7 @@
   border-radius: 12px;
   font-size: 1rem;
   font-weight: 600;
+  cursor: pointer;
   box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.3);
   transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
@@ -289,17 +67,271 @@
   box-shadow: 0 4px 10px rgba(135, 68, 233, 0.2);
 }
 
-/* Responsive Design */
+/* קטע סימון לקוח חדש */
+.toggle-new-customer {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 1.5rem;
+}
+.toggle-new-customer label {
+  font-weight: 500;
+  font-size: 1rem;
+  color: #4b0082;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+/* רשימת שירותים */
+.services {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(270px, 1fr));
+  gap: 1.5rem;
+}
+
+/* כרטיס שירות ב-ServiceCard */
+.service-card {
+  background: rgba(255, 255, 255, 0.9);
+  border-radius: 16px;
+  padding: 1.5rem;
+  box-shadow: 0 6px 12px rgba(0,0,0,0.08);
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+
+.service-card:hover {
+  transform: translateY(-5px);
+}
+
+.service-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.5rem;
+}
+
+.service-header h2 {
+  font-size: 1.3rem;
+  margin: 0;
+  color: #4b0082;
+}
+
+.service-details {
+  margin-top: 0.5rem;
+  color: #555;
+  line-height: 1.4;
+}
+
+/* כפתור במידע השירות */
+.service-cta-button {
+  margin-top: 1rem;
+  font-size: 1rem;
+  padding: 10px 16px;
+  border-radius: 8px;
+  border: none;
+  background: #7c3aed;
+  color: #fff;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.service-cta-button:hover {
+  background-color: #5f249a;
+}
+
+/* חבילות */
+.packages {
+  margin-top: 3rem;
+}
+
+.packages h2 {
+  text-align: center;
+  font-size: 2rem;
+  margin-bottom: 1rem;
+  color: #4b0082;
+}
+
+.packages-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 1.5rem;
+}
+
+.package-card {
+  background: rgba(255, 255, 255, 0.9);
+  border-radius: 16px;
+  padding: 1.5rem;
+  text-align: center;
+  transition: transform 0.2s ease;
+  box-shadow: 0 6px 12px rgba(0,0,0,0.08);
+}
+
+.package-card:hover {
+  transform: translateY(-5px);
+}
+
+.package-card h3 {
+  font-size: 1.5rem;
+  margin-bottom: 0.5rem;
+  color: #4b0082;
+}
+
+.package-card .price {
+  margin: 1rem 0;
+}
+.package-card .original {
+  text-decoration: line-through;
+  margin-right: 1rem;
+  color: #888;
+}
+.package-card .sale {
+  font-size: 1.4rem;
+  color: #ff2e85;
+  margin-right: 1rem;
+}
+.package-card .savings {
+  font-size: 0.9rem;
+  color: #9c27b0;
+}
+
+/* מודל */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0,0,0,0.5);
+  backdrop-filter: blur(4px);
+  z-index: 9999;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.modal-content {
+  background: #fff;
+  border-radius: 16px;
+  padding: 2rem;
+  width: 90%;
+  max-width: 500px;
+  max-height: 90%;
+  overflow-y: auto;
+}
+
+/* כותרת מודל */
+.modal-title {
+  font-size: 1.8rem;
+  margin-bottom: 1rem;
+  color: #4b0082;
+}
+
+/* טופס */
+.booking-form,
+.consultation-form,
+.bestie-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+
+.form-group label {
+  font-weight: 500;
+  color: #4b0082;
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+  border: 2px solid #e2e8f0;
+  border-radius: 8px;
+  font-size: 1rem;
+  padding: 0.5rem;
+  transition: all 0.2s ease;
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+  border-color: #7c3aed;
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(124, 58, 237, 0.1);
+}
+
+.form-buttons {
+  display: flex;
+  gap: 1rem;
+}
+
+.submit-button,
+.cancel-button {
+  padding: 12px 20px;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  font-size: 1rem;
+  transition: background-color 0.2s ease;
+}
+
+.submit-button {
+  background: #7c3aed;
+  color: #fff;
+}
+
+.submit-button:hover {
+  background-color: #5f249a;
+}
+
+.cancel-button {
+  background: #f3f4f6;
+  color: #4b5563;
+}
+
+.cancel-button:hover {
+  background: #e5e7eb;
+}
+
+/* באנר מבצע */
+.promo-banner {
+  background: #fff5f5;
+  color: #e53e3e;
+  border-radius: 8px;
+  padding: 0.5rem;
+  margin-bottom: 1rem;
+  font-size: 1rem;
+  font-weight: 600;
+  text-align: center;
+}
+
+/* מודל אישור הזמנה */
+.modal-body p {
+  margin-bottom: 0.5rem;
+  color: #555;
+}
+
+/* אנימציות ספלש */
+.fade-out {
+  opacity: 0;
+  transition: opacity 0.5s ease;
+}
+
+/* התאמות למסכים קטנים */
 @media (max-width: 768px) {
-  .header h1 {
-    font-size: 2.5rem;
+  header h1 {
+    font-size: 2.2rem;
   }
 
-  .services-grid {
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  .packages-grid {
+    grid-template-columns: 1fr;
   }
 
-  .packages-container {
+  .services {
     grid-template-columns: 1fr;
   }
 }
