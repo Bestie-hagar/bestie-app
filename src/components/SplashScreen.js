@@ -4,10 +4,9 @@ const SplashScreen = ({ onComplete }) => {
   const [isAnimating, setIsAnimating] = useState(true);
 
   useEffect(() => {
-    // לאחר 3 שניות מורידים את האנימציה ואז מחכים עוד חצי שנייה לפני שמסתירים
     const timer = setTimeout(() => {
       setIsAnimating(false);
-      setTimeout(onComplete, 500);
+      setTimeout(onComplete, 600); // עוד חצי שנייה לתת לאנימציית ה-fade-out לקרות
     }, 3000);
 
     return () => clearTimeout(timer);
@@ -17,12 +16,16 @@ const SplashScreen = ({ onComplete }) => {
     <div className={`splash-screen ${!isAnimating ? "fade-out" : ""}`}>
       <div className="splash-cloud left"></div>
       <div className="splash-cloud right"></div>
+      <div className="splash-cloud center"></div>
+
       <div className="splash-content">
-        <div className="logo">
-          <img src="/besties-logo.png" alt="Besties Logo" />
-        </div>
+        <img
+          src="/bestie-logo.png"
+          alt="Bestie Logo"
+          className="splash-logo"
+        />
         <h1>I GOT YOU, BESTIE</h1>
-        <p>שירות שלא ידעת שאת צריכה</p>
+        <p className="splash-subtitle">שירות שלא ידעת שאת צריכה</p>
       </div>
     </div>
   );
