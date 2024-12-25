@@ -13,10 +13,11 @@ const SplashScreen = ({ onComplete }) => {
 
   return (
     <div className={`splash-screen ${!isAnimating ? "fade-out" : ""}`}>
-      {/* העננים */}
+      {/* עננים משני הצדדים, מאחורי הטקסט */}
       <div className="splash-cloud cloud-left"></div>
       <div className="splash-cloud cloud-right"></div>
-      {/* תוכן הספלש */}
+
+      {/* התוכן (לוגו וכותרות) */}
       <div className="splash-content">
         <img src="/bestie-logo.png" alt="Bestie Logo" className="splash-logo" />
         <h1>I GOT YOU, BESTIE</h1>
