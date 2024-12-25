@@ -30,18 +30,15 @@ function App() {
     notes: ""
   });
 
-  // האם מצטרפת חדשה? (הנחה)
   const [isNewCustomer, setIsNewCustomer] = useState(false);
-
-  // ניהול מודל "תודה על ההזמנה"
   const [showConfirmation, setShowConfirmation] = useState(false);
 
-  // סיום מסך פתיחה
+  // אחרי שהספלש מסתיים
   if (showSplash) {
     return <SplashScreen onComplete={() => setShowSplash(false)} />;
   }
 
-  // שליחת ההזמנה
+  // שליחת הזמנה
   const handleBookingSubmit = async (e) => {
     e.preventDefault();
     const orderDetails = {
@@ -61,13 +58,12 @@ function App() {
       setShowBooking(false);
       setShowConfirmation(true);
     } else {
-      alert("אירעה שגיאה בשליחה לטלגרם. נסי שוב או פני אלינו לתמיכה.");
+      alert("אירעה שגיאה בשליחה לטלגרם. נסי שוב מאוחר יותר.");
     }
   };
 
   const closeBookingModal = () => {
     setShowBooking(false);
-    // איפוס הטופס
     setFormData({
       fullName: "",
       phone: "",
@@ -81,19 +77,18 @@ function App() {
 
   return (
     <div className="app" dir="rtl">
-      {/* עננים צפים בכל המסך */}
+      {/* עננים צפים במסך הראשי */}
       <div className="floating-cloud cloud-1"></div>
       <div className="floating-cloud cloud-2"></div>
       <div className="floating-cloud cloud-3"></div>
 
-      {/* כותרת */}
+      {/* כותרת פשוטה - בלי לוגו כפול */}
       <header>
-        <img src="/bestie-logo.png" alt="Bestie Logo" />
         <h1>BESTIES</h1>
-        <p>שירות שלא ידעת שאת צריכה</p>
+        <p>השירות שלא ידעת שאת צריכה</p>
       </header>
 
-      {/* סימון אם לקוחה חדשה */}
+      {/* האם אני מצטרפת חדשה */}
       <div className="toggle-new-customer">
         <label>
           <input
@@ -105,7 +100,7 @@ function App() {
         </label>
       </div>
 
-      {/* רשימת שירותים */}
+      {/* שירותים */}
       <section className="services">
         {services.map((service) => (
           <ServiceCard
