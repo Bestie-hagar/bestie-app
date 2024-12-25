@@ -24,11 +24,9 @@ const BookingModal = ({
         )}
 
         <div className="service-details">
-          <p className="description">{service.description}</p>
-          <p className="price">מחיר: {service.investment}</p>
-          {service.extraInfo && (
-            <p className="extra-info">{service.extraInfo}</p>
-          )}
+          {service.description && <p>{service.description}</p>}
+          {service.investment && <p>מחיר: {service.investment}</p>}
+          {service.extraInfo && <p>{service.extraInfo}</p>}
         </div>
 
         <form onSubmit={onSubmit} className="booking-form">
@@ -121,7 +119,11 @@ const BookingModal = ({
             <button type="submit" className="glossy-button">
               {isNewCustomer ? "הזמנה במחיר מבצע" : "שליחת הזמנה"}
             </button>
-            <button type="button" onClick={onClose} className="glossy-button">
+            <button
+              type="button"
+              onClick={onClose}
+              className="glossy-button"
+            >
               ביטול
             </button>
           </div>
