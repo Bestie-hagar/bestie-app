@@ -1,16 +1,21 @@
 import React, { useRef, useState } from "react";
 import "./styles.css";
-import { services, packages } from './services/services';
+import { services, packages, ConsultationForm, BestieRegistration } from './services/services';
 import { sendTelegramNotification } from './services/telegramService';
 import BookingModal from './components/BookingModal';
 import ConfirmationModal from './components/ConfirmationModal';
+import ConsultationFormModal from './components/ConsultationFormModal';
+import BestieRegistrationModal from './components/BestieRegistrationModal';
 
 function App() {
   const scrollContainerRef = useRef(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [showConfirmation, setShowConfirmation] = useState(false);
   const [selectedService, setSelectedService] = useState(null);
-  const [isNewCustomer, setIsNewCustomer] = useState(true); // ניתן לשנות בהמשך לפי היסטוריית לקוחות
+  const [isNewCustomer, setIsNewCustomer] = useState(true);
+  const [showConsultation, setShowConsultation] = useState(false);
+  const [showBestieForm, setShowBestieForm] = useState(false);
+  
   const [formData, setFormData] = useState({
     fullName: "",
     phone: "",
@@ -35,8 +40,6 @@ function App() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
-    // שליחה לטלגרם
     const success = await sendTelegramNotification({
       ...formData,
       service: selectedService,
@@ -46,8 +49,6 @@ function App() {
     if (success) {
       setIsModalOpen(false);
       setShowConfirmation(true);
-
-      // איפוס הטופס
       setFormData({
         fullName: "",
         phone: "",
@@ -62,7 +63,6 @@ function App() {
 
   return (
     <div className="app" dir="rtl">
-      {/* עננים */}
       <div className="floating-cloud cloud-1" />
       <div className="floating-cloud cloud-2" />
       <div className="floating-cloud cloud-3" />
@@ -70,6 +70,14 @@ function App() {
       <header className="header">
         <h1>BESTIES 💝</h1>
         <p>חברות טובות שתמיד חלמתם עליהם</p>
+        <div className="header-actions">
+          <button onClick={() => setShowConsultation(true)} className="consultation-button">
+            🎁 ייעוץ חינם
+          </button>
+          <button onClick={() => setShowBestieForm(true)} className="bestie-button">
+            ✨ רוצה להיות בסטי?
+          </button>
+        </div>
         {isNewCustomer && (
           <div className="promo-banner">
             🎉 מבצע למצטרפים חדשים - 40% הנחה! 
@@ -77,7 +85,17 @@ function App() {
         )}
       </header>
 
-      {/* חבילות */}
+      <div className="services-grid">
+        {services.map((service) => (
+          <div key={service.id} className="service-tile">
+            <div className="service-preview" onClick={() => handleBooking(service)}>
+              <div className="service-icon">{service.icon}</div>
+              <h3>{service.title}</h3>
+            </div>
+          </div>
+        ))}
+      </div>
+
       <div className="packages-section">
         <h2>חבילות מיוחדות</h2>
         <div className="packages-container">
@@ -85,49 +103,18 @@ function App() {
             <div key={pack.id} className="package-card">
               <h3>{pack.name}</h3>
               <div className="package-details">
+                <p className="description">{pack.description}</p>
+                <p className="details">{pack.details}</p>
                 <p className="savings">{pack.savings}</p>
                 <p className="price">
                   <span className="original-price">{pack.regularPrice}₪</span>
                   <span className="sale-price">{pack.salePrice}₪</span>
                 </p>
+                {pack.extraInfo && <p className="extra-info">{pack.extraInfo}</p>}
                 {pack.bonus && <p className="bonus">{pack.bonus}</p>}
               </div>
               <button onClick={() => handleBooking(pack)} className="package-button">
                 להזמנת החבילה
-              </button>
-            </div>
-          ))}
-        </div>
-      </div>
-
-      {/* שירותים */}
-      <div
-        className="services-scroll"
-        onWheel={handleWheel}
-        ref={scrollContainerRef}
-      >
-        <div className="services-container">
-          {services.map((service) => (
-            <div key={service.id} className="service-card">
-              <div className="service-icon">{service.icon}</div>
-              <h2>{service.title}</h2>
-              <p className="subtitle">{service.subtitle}</p>
-              <p className="description">{service.description}</p>
-              <div className="details">
-                {service.duration && <span>{service.duration}</span>}
-                <span className="price">{service.investment}</span>
-                {service.extraInfo && (
-                  <span className="extra">{service.extraInfo}</span>
-                )}
-                {isNewCustomer && service.promoPrice && (
-                  <span className="promo-price">{service.promoPrice}</span>
-                )}
-              </div>
-              <button
-                onClick={() => handleBooking(service)}
-                className="book-button"
-              >
-                {service.buttonText}
               </button>
             </div>
           ))}
@@ -148,6 +135,18 @@ function App() {
         isOpen={showConfirmation}
         onClose={() => setShowConfirmation(false)}
         isNewCustomer={isNewCustomer}
+      />
+
+      <ConsultationFormModal
+        isOpen={showConsultation}
+        onClose={() => setShowConsultation(false)}
+        form={ConsultationForm}
+      />
+
+      <BestieRegistrationModal
+        isOpen={showBestieForm}
+        onClose={() => setShowBestieForm(false)}
+        form={BestieRegistration}
       />
     </div>
   );
