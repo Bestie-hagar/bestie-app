@@ -7,19 +7,17 @@ const ServiceCard = ({ service, onSelect }) => {
 
   return (
     <div className="service-card" onClick={handleClick}>
-      {/* אייקון האימוג׳י */}
+      {/* האימוג’י של השירות */}
       <div className="service-icon">{service.icon}</div>
 
       <div className="service-header">
         <h2>{service.title}</h2>
       </div>
 
-      {/* כותרת משנה אם קיימת */}
       {service.subtitle && (
         <p className="service-subtitle">{service.subtitle}</p>
       )}
 
-      {/* מחיר/עלות/פרטים */}
       <div className="service-details">
         <p>{service.description}</p>
         {service.duration && <p className="service-duration">⏱ {service.duration}</p>}
