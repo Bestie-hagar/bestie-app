@@ -1,5 +1,6 @@
 @import url("https://fonts.googleapis.com/css2?family=Varela+Round&display=swap");
 
+/* Reset בסיסי */
 * {
   margin: 0;
   padding: 0;
@@ -14,6 +15,7 @@ body {
   overflow-x: hidden;
 }
 
+/* מעטפת האפליקציה */
 .app {
   position: relative;
   min-height: 100vh;
@@ -21,7 +23,7 @@ body {
   background: linear-gradient(135deg, #fcefff, #e0f9ff);
 }
 
-/* ========= Splash Screen ========= */
+/* ========== Splash Screen ========== */
 .splash-screen {
   position: fixed;
   inset: 0;
@@ -30,8 +32,8 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  overflow: hidden;
   transition: opacity 0.6s ease;
+  overflow: hidden;
 }
 
 .fade-out {
@@ -42,35 +44,29 @@ body {
 .splash-cloud {
   position: absolute;
   border-radius: 50%;
-  background: rgba(255, 255, 255, 0.4);
+  background: rgba(255, 255, 255, 0.35);
   backdrop-filter: blur(6px);
-  animation: float 4s ease-in-out infinite;
+  animation: float 5s ease-in-out infinite;
+  z-index: 1; /* העננים מאחורה */
 }
 
-.splash-cloud.left {
-  width: 120px;
-  height: 120px;
-  top: 15%;
-  left: 10%;
-}
-
-.splash-cloud.right {
+.cloud-left {
   width: 150px;
   height: 150px;
-  bottom: 20%;
+  top: 20%;
+  left: 15%;
+}
+
+.cloud-right {
+  width: 200px;
+  height: 200px;
+  bottom: 15%;
   right: 10%;
 }
 
-.splash-cloud.center {
-  width: 200px;
-  height: 200px;
-  top: 35%;
-  left: 42%;
-  transform: translate(-50%, -50%);
-}
-
-/* תוכן בספלש */
 .splash-content {
+  position: relative;
+  z-index: 2; /* כדי שהטקסט יהיה מעל העננים */
   text-align: center;
   color: #4b0082;
 }
@@ -88,26 +84,14 @@ body {
 
 /* אנימציות */
 @keyframes float {
-  0% {
-    transform: translateY(0);
-  }
-  50% {
-    transform: translateY(-10px);
-  }
-  100% {
-    transform: translateY(0);
-  }
+  0% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+  100% { transform: translateY(0); }
 }
 
 @keyframes popIn {
-  0% {
-    transform: scale(0.7);
-    opacity: 0;
-  }
-  100% {
-    transform: scale(1);
-    opacity: 1;
-  }
+  0% { transform: scale(0.7); opacity: 0; }
+  100% { transform: scale(1); opacity: 1; }
 }
 
 /* ========= Clouds on main app ========== */
@@ -144,7 +128,7 @@ body {
   animation-delay: 4s;
 }
 
-/* ========= Header ========= */
+/* ========= Header (אופציונלי) ========= */
 header {
   display: flex;
   flex-direction: column;
@@ -154,18 +138,12 @@ header {
   z-index: 1;
   margin-bottom: 1.5rem;
 }
-
-header img {
-  width: 140px;
-}
-
 header h1 {
   font-size: 2.5rem;
   background: linear-gradient(45deg, #7c3aed, #3b82f6);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
-
 header p {
   font-size: 1.2rem;
   color: #4b0082;
@@ -197,7 +175,6 @@ header p {
   position: relative;
   z-index: 1;
 }
-
 .service-card {
   background: rgba(255, 255, 255, 0.8);
   border-radius: 16px;
@@ -209,35 +186,28 @@ header p {
   flex-direction: column;
   gap: 0.5rem;
 }
-
 .service-card:hover {
   transform: translateY(-5px);
   box-shadow: 0 12px 22px rgba(0, 0, 0, 0.1);
 }
-
 .service-icon {
   font-size: 2rem;
-  margin-bottom: 0.5rem;
 }
-
 .service-header h2 {
   font-size: 1.3rem;
   color: #4b0082;
   margin: 0;
 }
-
 .service-subtitle {
   font-size: 1rem;
   font-weight: 500;
   color: #a855f7;
 }
-
 .service-details {
   color: #444;
   line-height: 1.4;
   font-size: 0.95rem;
 }
-
 .service-duration,
 .service-investment,
 .service-extra {
@@ -252,20 +222,17 @@ header p {
   position: relative;
   z-index: 1;
 }
-
 .packages h2 {
   text-align: center;
   font-size: 2rem;
   margin-bottom: 1rem;
   color: #4b0082;
 }
-
 .packages-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
   gap: 1.5rem;
 }
-
 .package-card {
   background: rgba(255, 255, 255, 0.8);
   border-radius: 16px;
@@ -274,40 +241,34 @@ header p {
   transition: transform 0.2s ease;
   box-shadow: 0 6px 12px rgba(0, 0, 0, 0.08);
 }
-
 .package-card:hover {
   transform: translateY(-5px);
   box-shadow: 0 12px 22px rgba(0, 0, 0, 0.1);
 }
-
 .package-card h3 {
   font-size: 1.4rem;
   margin-bottom: 0.5rem;
   color: #7c3aed;
 }
-
 .price {
   margin-top: 1rem;
 }
-
 .original {
   text-decoration: line-through;
   color: #777;
   margin-right: 0.5rem;
 }
-
 .sale {
   color: #ff3a7b;
   font-size: 1.2rem;
   margin-right: 0.5rem;
 }
-
 .savings {
   color: #f59e0b;
   font-size: 0.95rem;
 }
 
-/* ========= מודל כללי ========= */
+/* ========= Modal כללי ========= */
 .modal-overlay {
   position: fixed;
   inset: 0;
@@ -318,7 +279,6 @@ header p {
   align-items: center;
   z-index: 9999;
 }
-
 .modal-content {
   background: #fff;
   border-radius: 16px;
@@ -328,8 +288,6 @@ header p {
   max-height: 90%;
   overflow-y: auto;
 }
-
-/* כותרת המודל */
 .modal-title {
   font-size: 1.8rem;
   margin-bottom: 1rem;
@@ -345,18 +303,15 @@ header p {
   flex-direction: column;
   gap: 1rem;
 }
-
 .form-group {
   display: flex;
   flex-direction: column;
   gap: 0.2rem;
 }
-
 .form-group label {
   color: #4b0082;
   font-weight: 600;
 }
-
 .form-group input,
 .form-group select,
 .form-group textarea {
@@ -365,7 +320,6 @@ header p {
   padding: 0.5rem;
   font-size: 1rem;
 }
-
 .form-group input:focus,
 .form-group select:focus,
 .form-group textarea:focus {
@@ -374,39 +328,28 @@ header p {
   box-shadow: 0 0 0 3px rgba(124, 58, 237, 0.1);
 }
 
-/* כפתורי הטופס */
+/* כפתורים כלליים */
 .form-buttons {
   display: flex;
   gap: 1rem;
 }
 
-.submit-button,
-.cancel-button {
-  flex: 1;
-  border-radius: 8px;
+/* כפתור גלוסי (החלף את כל הכפתורים באתר למחלקה זו) */
+.glossy-button {
+  background: linear-gradient(135deg, #d8b4fe, #c4b5fd);
+  color: #4b0082;
   border: none;
-  cursor: pointer;
-  padding: 12px;
+  padding: 12px 20px;
+  border-radius: 12px;
   font-size: 1rem;
-  transition: background-color 0.2s ease;
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.3);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
-
-.submit-button {
-  background: #7c3aed;
-  color: #fff;
-}
-
-.submit-button:hover {
-  background-color: #5f249a;
-}
-
-.cancel-button {
-  background: #f3f4f6;
-  color: #4b5563;
-}
-
-.cancel-button:hover {
-  background: #e5e7eb;
+.glossy-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 10px rgba(135, 68, 233, 0.2);
 }
 
 /* באנר מבצע */
@@ -421,7 +364,7 @@ header p {
   text-align: center;
 }
 
-/* מודל אישור */
+/* טקסט במודל אישור */
 .modal-body p {
   margin-bottom: 0.5rem;
   color: #555;
@@ -432,7 +375,6 @@ header p {
   header h1 {
     font-size: 2rem;
   }
-
   .service-card {
     padding: 1rem;
   }
