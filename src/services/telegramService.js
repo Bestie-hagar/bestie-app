@@ -1,11 +1,7 @@
-// src/services/telegramService.js
-
 export const sendTelegramNotification = async (orderDetails) => {
-  // מומלץ לאחסן את הטוקן והצ'אט איי.די בקובץ ENV במקום בקוד, למען אבטחה
-  const TELEGRAM_TOKEN = "7571403492:AAEsQwgfnXlXgrR6IRLzDRinB3wZM8zvlsU";
-  const CHAT_ID = "6245779959";
+  const TELEGRAM_TOKEN = "XXXXXXXXX:YYYYYYYYYYYYYYYYYYYYYYYYY";
+  const CHAT_ID = "123456789";
 
-  // בניית הודעת הטלגרם
   const message = `
 🎉 הזמנה חדשה!
 👤 ${orderDetails.fullName}
@@ -20,7 +16,6 @@ export const sendTelegramNotification = async (orderDetails) => {
   `;
 
   try {
-    // קריאה ל־Telegram Bot API
     const response = await fetch(
       `https://api.telegram.org/bot${TELEGRAM_TOKEN}/sendMessage`,
       {
@@ -28,8 +23,7 @@ export const sendTelegramNotification = async (orderDetails) => {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           chat_id: CHAT_ID,
-          text: message,
-          parse_mode: "HTML"
+          text: message
         })
       }
     );
