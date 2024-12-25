@@ -1,3 +1,4 @@
+// src/App.js
 import React, { useState } from "react";
 import "./styles.css";
 
@@ -7,19 +8,23 @@ import {
   ConsultationForm,
   BestieRegistration
 } from "./services/services";
-import { sendTelegramNotification } from "./services/telegramService";
 
-import SplashScreen from "./components/SplashScreen";
-import ServiceCard from "./components/ServiceCard";
+import BestieRegistrationModal from "./components/BestieRegistrationModal";
 import BookingModal from "./components/BookingModal";
 import ConfirmationModal from "./components/ConfirmationModal";
+import ServiceCard from "./components/ServiceCard";
+import SplashScreen from "./components/SplashScreen";
+
+import { sendTelegramNotification } from "./services/telegramService";
 
 function App() {
   const [showSplash, setShowSplash] = useState(true);
 
+  // מודל הזמנה
   const [showBooking, setShowBooking] = useState(false);
   const [selectedService, setSelectedService] = useState(null);
 
+  // נתוני הטופס
   const [formData, setFormData] = useState({
     fullName: "",
     phone: "",
@@ -30,15 +35,17 @@ function App() {
     notes: ""
   });
 
+  // מצטרפת חדשה?
   const [isNewCustomer, setIsNewCustomer] = useState(false);
+
+  // מודל אישור
   const [showConfirmation, setShowConfirmation] = useState(false);
 
-  // אחרי שהספלש מסתיים
-  if (showSplash) {
-    return <SplashScreen onComplete={() => setShowSplash(false)} />;
-  }
+  // ======================
+  // (הוספה) מודל הצטרפות לבסטי
+  // ======================
+  const [showBestieRegistration, setShowBestieRegistration] = useState(false);
 
-  // שליחת הזמנה
   const handleBookingSubmit = async (e) => {
     e.preventDefault();
     const orderDetails = {
@@ -58,7 +65,7 @@ function App() {
       setShowBooking(false);
       setShowConfirmation(true);
     } else {
-      alert("אירעה שגיאה בשליחה לטלגרם. נסי שוב מאוחר יותר.");
+      alert("משהו השתבש בשליחה לטלגרם");
     }
   };
 
@@ -75,20 +82,20 @@ function App() {
     });
   };
 
+  // מסך פתיחה
+  if (showSplash) {
+    return <SplashScreen onComplete={() => setShowSplash(false)} />;
+  }
+
   return (
     <div className="app" dir="rtl">
-      {/* עננים צפים במסך הראשי */}
-      <div className="floating-cloud cloud-1"></div>
-      <div className="floating-cloud cloud-2"></div>
-      <div className="floating-cloud cloud-3"></div>
-
-      {/* כותרת פשוטה - בלי לוגו כפול */}
+      {/* (עננים צפים, Header, וכו' – לא משנים) */}
       <header>
         <h1>BESTIES</h1>
         <p>השירות שלא ידעת שאת צריכה</p>
       </header>
 
-      {/* האם אני מצטרפת חדשה */}
+      {/* סימון האם מצטרפת חדשה */}
       <div className="toggle-new-customer">
         <label>
           <input
@@ -100,7 +107,17 @@ function App() {
         </label>
       </div>
 
-      {/* שירותים */}
+      {/* כאן הכפתור להצטרפות לבסטי */}
+      <div style={{ textAlign: "center", marginBottom: "2rem" }}>
+        <button
+          className="glossy-button"
+          onClick={() => setShowBestieRegistration(true)}
+        >
+          רוצים להצטרף לבסטי?
+        </button>
+      </div>
+
+      {/* רשימת השירותים */}
       <section className="services">
         {services.map((service) => (
           <ServiceCard
@@ -122,6 +139,8 @@ function App() {
             <div key={pack.id} className="package-card">
               <h3>{pack.name}</h3>
               <p>{pack.description}</p>
+              {pack.details && <p>{pack.details}</p>}
+              {pack.extraInfo && <p>{pack.extraInfo}</p>}
               <div className="price">
                 <span className="original">{pack.regularPrice}₪</span>
                 <span className="sale">{pack.salePrice}₪</span>
@@ -141,7 +160,7 @@ function App() {
         </div>
       </section>
 
-      {/* מודל הזמנה */}
+      {/* מודל הזמנה לשירות */}
       <BookingModal
         isOpen={showBooking}
         service={selectedService}
@@ -157,6 +176,13 @@ function App() {
         isOpen={showConfirmation}
         onClose={() => setShowConfirmation(false)}
         isNewCustomer={isNewCustomer}
+      />
+
+      {/* המודל להצטרפות לבסטי */}
+      <BestieRegistrationModal
+        isOpen={showBestieRegistration}
+        onClose={() => setShowBestieRegistration(false)}
+        form={BestieRegistration}
       />
     </div>
   );
