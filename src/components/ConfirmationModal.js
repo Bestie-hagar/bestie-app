@@ -12,8 +12,7 @@ const ConfirmationModal = ({ isOpen, onClose, isNewCustomer }) => {
           <p>ניצור קשר בקרוב</p>
           {isNewCustomer && (
             <p className="welcome-message">
-              ברוכים הבאים למשפחת BESTIES! 💝
-              מחכים להעניק לך את החוויה המושלמת
+              ברוכה הבאה למשפחת BESTIES! מחכים להעניק לך את החוויה המושלמת
             </p>
           )}
           <button onClick={onClose} className="glossy-button">
