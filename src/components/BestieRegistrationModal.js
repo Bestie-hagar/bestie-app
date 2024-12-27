@@ -1,4 +1,6 @@
 import React, { useState } from "react";
+// נניח שאת רוצה להשתמש ב-telegramService שקיים
+import { sendTelegramNotification } from "../services/telegramService";
 
 const BestieRegistrationModal = ({ isOpen, onClose, form }) => {
   const [formData, setFormData] = useState({
@@ -9,10 +11,35 @@ const BestieRegistrationModal = ({ isOpen, onClose, form }) => {
     location: ""
   });
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // פותחים טופס גוגל הצטרפות או שולחים API
-    window.open("https://docs.google.com/forms/...", "_blank");
+
+    // 1) שליחת התראה לטלגרם
+    const telegramSuccess = await sendTelegramNotification({
+      fullName: formData.fullName,
+      phone: formData.phone,
+      email: formData.email,
+      // נמיר את "giftToWorld" ל-service.title, או נשים פשוט property חדש
+      service: {
+        title: "נרשמת כנותנת שירות לבסטי!"
+      },
+      notes: `כישרון: ${formData.giftToWorld}\nאיזור: ${formData.location}`,
+      isPromo: false, // או true, לא באמת משנה כאן
+      address: "לא רלוונטי", 
+      location: "לא רלוונטי",
+      date: "לא רלוונטי",
+      time: "לא רלוונטי"
+    });
+
+    if (!telegramSuccess) {
+      alert("התרחשה בעיה בשליחה לטלגרם. אנא נסי שוב מאוחר יותר.");
+      return;
+    }
+
+    // 2) אפשרות להפניה לטופס גוגל (אם תרצי להשאיר את ה-flow הזה)
+    window.open("https://docs.google.com/forms/d/...", "_blank");
+
+    // 3) סגירת המודל
     onClose();
   };
 
@@ -22,7 +49,7 @@ const BestieRegistrationModal = ({ isOpen, onClose, form }) => {
     <div className="modal-overlay">
       <div className="modal-content">
         <h2 className="modal-title">{form.title}</h2>
-        <p>{form.description}</p>
+        <p style={{ whiteSpace: "pre-line" }}>{form.description}</p>
         <form onSubmit={handleSubmit} className="bestie-form">
           {form.fields.map((field) => (
             <div key={field.name} className="form-group">
