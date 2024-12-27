@@ -1,9 +1,14 @@
 import { google } from "googleapis";
-import credentials from "../path-to/credentials.json"; // שימי כאן את הנתיב הנכון לקובץ ה-JSON שלך
+import path from "path";
+import fs from "fs";
+
+// טוען את האישורים מהקובץ
+const credentialsPath = path.resolve(__dirname, "../credentials.json"); // מיקום הקובץ
+const credentials = JSON.parse(fs.readFileSync(credentialsPath, "utf-8"));
 
 // יצירת חיבור עם Google API
 const auth = new google.auth.GoogleAuth({
-  credentials, // הקובץ JSON עם האישורים שהורדת מגוגל
+  credentials,
   scopes: ["https://www.googleapis.com/auth/spreadsheets"], // הרשאות עבור Google Sheets
 });
 
@@ -12,13 +17,20 @@ const sheets = google.sheets({ version: "v4", auth });
 // פונקציה לשמירת נתונים ב-Google Sheets
 export const saveToGoogleSheet = async (data, sheetName) => {
   try {
-    const SPREADSHEET_ID = "1bG_nAGcorpO6LAPsWhtl4QXJjVvc7umafgmTcDJyAR4"; // ה-ID של הקובץ שלך
+    const SPREADSHEET_ID = "1bG_nAGcorpO6LAPsWhtl4QXJjVvc7umafgmTcDJyAR4"; // ID של הגיליון
     const response = await sheets.spreadsheets.values.append({
       spreadsheetId: SPREADSHEET_ID,
-      range: `${sheetName}!A1`, // שמירת הנתונים בגיליון ספציפי
+      range: `${sheetName}!A1`, // שמירת הנתונים בגיליון מסוים
       valueInputOption: "USER_ENTERED",
       resource: {
-        values: [[data.fullName, data.phone, data.email, data.notes || ""]], // שדות לכתיבה
+        values: [
+          [
+            data.fullName || "לא צוין שם",
+            data.phone || "לא צוין טלפון",
+            data.email || "לא צוין אימייל",
+            data.notes || "אין הערות",
+          ],
+        ],
       },
     });
 
