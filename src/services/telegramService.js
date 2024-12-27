@@ -4,10 +4,8 @@ export const sendTelegramNotification = async (orderDetails) => {
   const TELEGRAM_TOKEN = process.env.TELEGRAM_BOT_TOKEN;
   const CHAT_ID = "6245779959";
   
-  if (!TELEGRAM_TOKEN) {
-    console.error("Telegram token is missing!");
-    return false;
-  }
+  // בדיקת דיבאג
+  console.log("Checking if token exists:", !!TELEGRAM_TOKEN);
   
   const message = `
 🎉 הזמנה חדשה!
@@ -23,7 +21,7 @@ export const sendTelegramNotification = async (orderDetails) => {
   `;
 
   try {
-    console.log("Starting to send telegram message..."); // לוג לבדיקה
+    console.log("Attempting to send telegram message..."); // לוג לבדיקה
     const response = await fetch(
       `https://api.telegram.org/bot${TELEGRAM_TOKEN}/sendMessage`,
       {
@@ -42,7 +40,7 @@ export const sendTelegramNotification = async (orderDetails) => {
       return false;
     }
     
-    console.log("Telegram message sent successfully!"); // לוג לבדיקה
+    console.log("Telegram message sent successfully!");
     return true;
   } catch (error) {
     console.error("Error sending Telegram notification:", error);
