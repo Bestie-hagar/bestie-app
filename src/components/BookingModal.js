@@ -1,4 +1,6 @@
 import React from "react";
+import { saveToGoogleSheet } from "../services/googleSheetsService";
+import { sendTelegramNotification } from "../services/telegramService";
 
 const BookingModal = ({
   isOpen,
@@ -6,9 +8,55 @@ const BookingModal = ({
   service,
   formData,
   setFormData,
-  onSubmit,
   isNewCustomer
 }) => {
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    try {
+      // שליחת התראה לטלגרם
+      const telegramSuccess = await sendTelegramNotification({
+        fullName: formData.fullName,
+        phone: formData.phone,
+        service: service,
+        notes: formData.notes || "אין הערות",
+        isPromo: isNewCustomer,
+        location: formData.location,
+        address: formData.address,
+        date: formData.date,
+        time: formData.time
+      });
+
+      if (!telegramSuccess) {
+        alert("שגיאה בשליחה לטלגרם. נסי שוב מאוחר יותר.");
+        return;
+      }
+
+      // שמירת נתונים בגוגל שיטס
+      const googleSheetsSuccess = await saveToGoogleSheet(
+        {
+          fullName: formData.fullName,
+          phone: formData.phone,
+          email: formData.email || "לא נמסר",
+          service: service.title,
+          notes: formData.notes
+        },
+        "חברות"
+      );
+
+      if (!googleSheetsSuccess) {
+        alert("שגיאה בשמירת הנתונים בגוגל שיטס. נסי שוב מאוחר יותר.");
+        return;
+      }
+
+      alert("ההזמנה נשמרה בהצלחה! תודה שהזמנת מבסטי 🎉");
+      onClose(); // סגירת המודל
+    } catch (error) {
+      console.error("שגיאה בטיפול בטופס:", error);
+      alert("שגיאה כללית. נסי שוב מאוחר יותר.");
+    }
+  };
+
   if (!isOpen || !service) return null;
 
   return (
@@ -29,104 +77,8 @@ const BookingModal = ({
           {service.extraInfo && <p>{service.extraInfo}</p>}
         </div>
 
-        <form onSubmit={onSubmit} className="booking-form">
-          <div className="form-group">
-            <label>שם מלא</label>
-            <input
-              type="text"
-              value={formData.fullName}
-              onChange={(e) =>
-                setFormData({ ...formData, fullName: e.target.value })
-              }
-              required
-            />
-          </div>
-
-          <div className="form-group">
-            <label>טלפון</label>
-            <input
-              type="tel"
-              value={formData.phone}
-              onChange={(e) =>
-                setFormData({ ...formData, phone: e.target.value })
-              }
-              required
-            />
-          </div>
-
-          <div className="form-group">
-            <label>מיקום</label>
-            <select
-              value={formData.location}
-              onChange={(e) =>
-                setFormData({ ...formData, location: e.target.value })
-              }
-              required
-            >
-              <option value="">בחר/י מיקום</option>
-              <option value="home">בבית</option>
-              <option value="outside">בחוץ</option>
-            </select>
-          </div>
-
-          <div className="form-group">
-            <label>כתובת</label>
-            <input
-              type="text"
-              value={formData.address}
-              onChange={(e) =>
-                setFormData({ ...formData, address: e.target.value })
-              }
-              required
-            />
-          </div>
-
-          <div className="form-group">
-            <label>תאריך</label>
-            <input
-              type="date"
-              value={formData.date}
-              onChange={(e) =>
-                setFormData({ ...formData, date: e.target.value })
-              }
-              required
-            />
-          </div>
-
-          <div className="form-group">
-            <label>שעה</label>
-            <input
-              type="time"
-              value={formData.time}
-              onChange={(e) =>
-                setFormData({ ...formData, time: e.target.value })
-              }
-              required
-            />
-          </div>
-
-          <div className="form-group">
-            <label>הערות</label>
-            <textarea
-              value={formData.notes}
-              onChange={(e) =>
-                setFormData({ ...formData, notes: e.target.value })
-              }
-            />
-          </div>
-
-          <div className="form-buttons">
-            <button type="submit" className="glossy-button">
-              {isNewCustomer ? "הזמנה במחיר מבצע" : "שליחת הזמנה"}
-            </button>
-            <button
-              type="button"
-              onClick={onClose}
-              className="glossy-button"
-            >
-              ביטול
-            </button>
-          </div>
+        <form onSubmit={handleSubmit} className="booking-form">
+          {/* טופס המילוי */}
         </form>
       </div>
     </div>
