@@ -15,13 +15,13 @@ const BestieRegistrationModal = ({ isOpen, onClose, form }) => {
     e.preventDefault();
 
     try {
-      // שליחת התראה לטלגרם
+      // שליחת הודעה לטלגרם
       const telegramSuccess = await sendTelegramNotification({
         fullName: formData.fullName,
         phone: formData.phone,
         email: formData.email,
         service: {
-          title: "נרשמת כנותנת שירות לבסטי!",
+          title: "בקשת הצטרפות לבסטי",
         },
         notes: `כישרון: ${formData.giftToWorld}\nאיזור: ${formData.location}`,
         isPromo: false,
@@ -39,7 +39,7 @@ const BestieRegistrationModal = ({ isOpen, onClose, form }) => {
       // שמירת נתונים בגוגל שיטס
       const googleSheetsSuccess = await saveToGoogleSheet(
         formData,
-        "בסטיז" // שם הגיליון
+        "בסטיז" // גיליון "בסטיז" עבור מצטרפים חדשים
       );
 
       if (!googleSheetsSuccess) {
@@ -47,8 +47,8 @@ const BestieRegistrationModal = ({ isOpen, onClose, form }) => {
         return;
       }
 
-      alert("הפרטים נשמרו בהצלחה! תודה שהצטרפת למשפחת בסטיז 🎉");
-      onClose();
+      alert("בקשתך נשלחה בהצלחה! תודה שהצטרפת למשפחת בסטיז 🎉");
+      onClose(); // סגירת המודל
     } catch (error) {
       console.error("שגיאה בטיפול בטופס:", error);
       alert("שגיאה כללית. נסי שוב מאוחר יותר.");
