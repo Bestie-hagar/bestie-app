@@ -1,6 +1,6 @@
 import { google } from "googleapis";
 
-// קריאת המפתח מתוך secrets בסביבה
+// קריאת המפתח מתוך secrets
 const credentials = JSON.parse(process.env.GOOGLE_CLOUD_CREDENTIALS);
 
 const auth = new google.auth.GoogleAuth({
@@ -12,9 +12,9 @@ const sheets = google.sheets({ version: "v4", auth });
 
 export const saveToGoogleSheet = async (data, sheetName) => {
   try {
-    const SPREADSHEET_ID = "1bG_nAGcorpO6LAPsWhtl4QXJjVvc7umafgmTcDJyAR4"; // ID של Google Sheets
+    const SPREADSHEET_ID = "1bG_nAGcorpO6LAPsWhtl4QXJjVvc7umafgmTcDJyAR4";
 
-    // שליחה ל-Google Sheets
+    // כתיבה לשורה חדשה בגיליון הנכון
     const response = await sheets.spreadsheets.values.append({
       spreadsheetId: SPREADSHEET_ID,
       range: `${sheetName}!A1`,
