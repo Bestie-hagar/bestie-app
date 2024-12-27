@@ -2,7 +2,7 @@
 
 export const sendTelegramNotification = async (orderDetails) => {
   // הטוקן שלך
-  const TELEGRAM_TOKEN = "7571403492:AAEsQwgfnXlXgrR6IRLzDRinB3wZM8zvlsU";
+const TELEGRAM_TOKEN = process.env.TELEGRAM_BOT_TOKEN;
   // ה־Chat ID שלך
   const CHAT_ID = "6245779959";
 
