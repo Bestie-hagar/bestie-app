@@ -1,10 +1,7 @@
 import { google } from "googleapis";
-import path from "path";
-import fs from "fs";
 
-// טוען את האישורים מהקובץ
-const credentialsPath = path.resolve(__dirname, "../credentials.json"); // מיקום הקובץ
-const credentials = JSON.parse(fs.readFileSync(credentialsPath, "utf-8"));
+// טוען את האישורים מתוך משתני הסביבה
+const credentials = JSON.parse(process.env.GOOGLE_CREDENTIALS);
 
 // יצירת חיבור עם Google API
 const auth = new google.auth.GoogleAuth({
