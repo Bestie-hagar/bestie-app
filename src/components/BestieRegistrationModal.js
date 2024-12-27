@@ -8,7 +8,7 @@ const BestieRegistrationModal = ({ isOpen, onClose, form }) => {
     phone: "",
     email: "",
     giftToWorld: "",
-    location: ""
+    location: "",
   });
 
   const handleSubmit = async (e) => {
@@ -21,14 +21,14 @@ const BestieRegistrationModal = ({ isOpen, onClose, form }) => {
         phone: formData.phone,
         email: formData.email,
         service: {
-          title: "נרשמת כנותנת שירות לבסטי!"
+          title: "נרשמת כנותנת שירות לבסטי!",
         },
         notes: `כישרון: ${formData.giftToWorld}\nאיזור: ${formData.location}`,
         isPromo: false,
         address: "לא רלוונטי",
         location: "לא רלוונטי",
         date: "לא רלוונטי",
-        time: "לא רלוונטי"
+        time: "לא רלוונטי",
       });
 
       if (!telegramSuccess) {
@@ -37,14 +37,18 @@ const BestieRegistrationModal = ({ isOpen, onClose, form }) => {
       }
 
       // שמירת נתונים בגוגל שיטס
-      const googleSheetsSuccess = await saveToGoogleSheet(formData, "בסטיז");
+      const googleSheetsSuccess = await saveToGoogleSheet(
+        formData,
+        "בסטיז" // שם הגיליון
+      );
+
       if (!googleSheetsSuccess) {
         alert("שגיאה בשמירת הנתונים בגוגל שיטס. נסי שוב מאוחר יותר.");
         return;
       }
 
       alert("הפרטים נשמרו בהצלחה! תודה שהצטרפת למשפחת בסטיז 🎉");
-      onClose(); // סגירת המודל
+      onClose();
     } catch (error) {
       console.error("שגיאה בטיפול בטופס:", error);
       alert("שגיאה כללית. נסי שוב מאוחר יותר.");
@@ -69,7 +73,7 @@ const BestieRegistrationModal = ({ isOpen, onClose, form }) => {
                   onChange={(e) =>
                     setFormData({
                       ...formData,
-                      [field.name]: e.target.value
+                      [field.name]: e.target.value,
                     })
                   }
                   required={field.required}
@@ -82,7 +86,7 @@ const BestieRegistrationModal = ({ isOpen, onClose, form }) => {
                   onChange={(e) =>
                     setFormData({
                       ...formData,
-                      [field.name]: e.target.value
+                      [field.name]: e.target.value,
                     })
                   }
                   required={field.required}
