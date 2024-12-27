@@ -1,13 +1,5 @@
 // src/services/telegramService.js
 export const sendTelegramNotification = async (orderDetails) => {
-  const TELEGRAM_TOKEN = process.env.NEXT_PUBLIC_TELEGRAM_BOT_TOKEN;
-  const CHAT_ID = "6245779959";
-  
-  if (!TELEGRAM_TOKEN) {
-    console.error("Telegram token is missing");
-    return false;
-  }
-
   const message = `
 🎉 הזמנה חדשה!
 👤 ${orderDetails.fullName}
@@ -22,18 +14,21 @@ export const sendTelegramNotification = async (orderDetails) => {
   `;
 
   try {
-    const response = await fetch(
-      `https://api.telegram.org/bot${TELEGRAM_TOKEN}/sendMessage`,
-      {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          chat_id: CHAT_ID,
-          text: message
-        })
-      }
-    );
-    return response.ok;
+    const response = await fetch('/api/sendTelegram', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ message })
+    });
+
+    if (!response.ok) {
+      const error = await response.text();
+      console.error('Error response:', error);
+      return false;
+    }
+
+    return true;
   } catch (error) {
     console.error("Error sending Telegram notification:", error);
     return false;
