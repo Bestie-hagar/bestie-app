@@ -15,7 +15,7 @@ const BestieRegistrationModal = ({ isOpen, onClose, form }) => {
     e.preventDefault();
 
     try {
-      // 1) שליחת התראה לטלגרם
+      // שליחת התראה לטלגרם
       const telegramSuccess = await sendTelegramNotification({
         fullName: formData.fullName,
         phone: formData.phone,
@@ -36,8 +36,8 @@ const BestieRegistrationModal = ({ isOpen, onClose, form }) => {
         return;
       }
 
-      // 2) שמירת נתונים ב-Google Sheets
-      const googleSheetsSuccess = await saveToGoogleSheet(formData);
+      // שמירת נתונים בגוגל שיטס
+      const googleSheetsSuccess = await saveToGoogleSheet(formData, "בסטיז");
       if (!googleSheetsSuccess) {
         alert("שגיאה בשמירת הנתונים בגוגל שיטס. נסי שוב מאוחר יותר.");
         return;
