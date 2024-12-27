@@ -1,6 +1,5 @@
-import { saveToGoogleSheet } from "../services/googleSheetsService";
 import React, { useState } from "react";
-// נניח שאת רוצה להשתמש ב-telegramService שקיים
+import { saveToGoogleSheet } from "../services/googleSheetsService";
 import { sendTelegramNotification } from "../services/telegramService";
 
 const BestieRegistrationModal = ({ isOpen, onClose, form }) => {
@@ -15,33 +14,41 @@ const BestieRegistrationModal = ({ isOpen, onClose, form }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // 1) שליחת התראה לטלגרם
-    const telegramSuccess = await sendTelegramNotification({
-      fullName: formData.fullName,
-      phone: formData.phone,
-      email: formData.email,
-      // נמיר את "giftToWorld" ל-service.title, או נשים פשוט property חדש
-      service: {
-        title: "נרשמת כנותנת שירות לבסטי!"
-      },
-      notes: `כישרון: ${formData.giftToWorld}\nאיזור: ${formData.location}`,
-      isPromo: false, // או true, לא באמת משנה כאן
-      address: "לא רלוונטי", 
-      location: "לא רלוונטי",
-      date: "לא רלוונטי",
-      time: "לא רלוונטי"
-    });
+    try {
+      // 1) שליחת התראה לטלגרם
+      const telegramSuccess = await sendTelegramNotification({
+        fullName: formData.fullName,
+        phone: formData.phone,
+        email: formData.email,
+        service: {
+          title: "נרשמת כנותנת שירות לבסטי!"
+        },
+        notes: `כישרון: ${formData.giftToWorld}\nאיזור: ${formData.location}`,
+        isPromo: false,
+        address: "לא רלוונטי",
+        location: "לא רלוונטי",
+        date: "לא רלוונטי",
+        time: "לא רלוונטי"
+      });
 
-    if (!telegramSuccess) {
-      alert("התרחשה בעיה בשליחה לטלגרם. אנא נסי שוב מאוחר יותר.");
-      return;
+      if (!telegramSuccess) {
+        alert("שגיאה בשליחה לטלגרם. נסי שוב מאוחר יותר.");
+        return;
+      }
+
+      // 2) שמירת נתונים ב-Google Sheets
+      const googleSheetsSuccess = await saveToGoogleSheet(formData);
+      if (!googleSheetsSuccess) {
+        alert("שגיאה בשמירת הנתונים בגוגל שיטס. נסי שוב מאוחר יותר.");
+        return;
+      }
+
+      alert("הפרטים נשמרו בהצלחה! תודה שהצטרפת למשפחת בסטיז 🎉");
+      onClose(); // סגירת המודל
+    } catch (error) {
+      console.error("שגיאה בטיפול בטופס:", error);
+      alert("שגיאה כללית. נסי שוב מאוחר יותר.");
     }
-
-    // 2) אפשרות להפניה לטופס גוגל (אם תרצי להשאיר את ה-flow הזה)
-    window.open("https://docs.google.com/forms/d/...", "_blank");
-
-    // 3) סגירת המודל
-    onClose();
   };
 
   if (!isOpen) return null;
