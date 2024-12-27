@@ -1,43 +1,31 @@
 import { google } from "googleapis";
+import credentials from "../path-to/credentials.json"; // שימי כאן את הנתיב הנכון לקובץ ה-JSON שלך
 
-// פונקציה לשמירה בגיליון גוגל
-export const saveToGoogleSheet = async (data, sheetType) => {
+// יצירת חיבור עם Google API
+const auth = new google.auth.GoogleAuth({
+  credentials, // הקובץ JSON עם האישורים שהורדת מגוגל
+  scopes: ["https://www.googleapis.com/auth/spreadsheets"], // הרשאות עבור Google Sheets
+});
+
+const sheets = google.sheets({ version: "v4", auth });
+
+// פונקציה לשמירת נתונים ב-Google Sheets
+export const saveToGoogleSheet = async (data, sheetName) => {
   try {
-    // התחברות לשירות Google
-    const auth = new google.auth.GoogleAuth({
-      credentials: JSON.parse(process.env.GOOGLE_CLOUD_CREDENTIALS),
-      scopes: ["https://www.googleapis.com/auth/spreadsheets"]
+    const SPREADSHEET_ID = "1bG_nAGcorpO6LAPsWhtl4QXJjVvc7umafgmTcDJyAR4"; // ה-ID של הקובץ שלך
+    const response = await sheets.spreadsheets.values.append({
+      spreadsheetId: SPREADSHEET_ID,
+      range: `${sheetName}!A1`, // שמירת הנתונים בגיליון ספציפי
+      valueInputOption: "USER_ENTERED",
+      resource: {
+        values: [[data.fullName, data.phone, data.email, data.notes || ""]], // שדות לכתיבה
+      },
     });
 
-    const sheets = google.sheets({ version: "v4", auth });
-
-    // מזהה הגיליון (Spreadsheet ID)
-    const spreadsheetId = "1c2bce60da44ca5c084cfdfab146218f0629525a";
-
-    // הגדרת הטווח לפי הסוג
-    const range =
-      sheetType === "חברות"
-        ? "חברות!A:E" // גיליון חברות
-        : "בסטיז!A:E"; // גיליון בסטיז
-
-    // ערכים להוספה
-    const values =
-      sheetType === "חברות"
-        ? [[data.fullName, data.phone, data.email, data.service, data.notes]]
-        : [[data.fullName, data.phone, data.email, data.giftToWorld, data.location]];
-
-    // הוספת נתונים לגיליון
-    await sheets.spreadsheets.values.append({
-      spreadsheetId,
-      range,
-      valueInputOption: "RAW",
-      resource: { values }
-    });
-
-    console.log(`הנתונים נשמרו בגיליון ${sheetType} בהצלחה!`);
-    return true;
+    console.log("Response from Google Sheets API:", response.data);
+    return response.status === 200;
   } catch (error) {
-    console.error(`שגיאה בשמירת הנתונים בגיליון ${sheetType}:`, error);
+    console.error("Error saving to Google Sheets:", error);
     return false;
   }
 };
