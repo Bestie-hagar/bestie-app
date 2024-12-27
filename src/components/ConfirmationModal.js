@@ -9,7 +9,7 @@ const ConfirmationModal = ({ isOpen, onClose, isNewCustomer }) => {
         <h2 className="modal-title">תודה על ההזמנה! 🎉</h2>
         <div className="modal-body">
           <p>קיבלנו את ההזמנה שלך</p>
-          <p>ניצור קשר בקרוב</p>
+          <p>ניצור קשר במהרה</p>
           {isNewCustomer && (
             <p className="welcome-message">
               ברוכה הבאה למשפחת BESTIES! מחכים להעניק לך את החוויה המושלמת
