@@ -1,23 +1,23 @@
 import { google } from "googleapis";
 
-// טוען את האישורים מתוך משתני הסביבה
-const credentials = JSON.parse(process.env.GOOGLE_CREDENTIALS);
+// קריאת המפתח מתוך secrets בסביבה
+const credentials = JSON.parse(process.env.GOOGLE_CLOUD_CREDENTIALS);
 
-// יצירת חיבור עם Google API
 const auth = new google.auth.GoogleAuth({
   credentials,
-  scopes: ["https://www.googleapis.com/auth/spreadsheets"], // הרשאות עבור Google Sheets
+  scopes: ["https://www.googleapis.com/auth/spreadsheets"],
 });
 
 const sheets = google.sheets({ version: "v4", auth });
 
-// פונקציה לשמירת נתונים ב-Google Sheets
 export const saveToGoogleSheet = async (data, sheetName) => {
   try {
-    const SPREADSHEET_ID = "1bG_nAGcorpO6LAPsWhtl4QXJjVvc7umafgmTcDJyAR4"; // ID של הגיליון
+    const SPREADSHEET_ID = "1bG_nAGcorpO6LAPsWhtl4QXJjVvc7umafgmTcDJyAR4"; // ID של Google Sheets
+
+    // שליחה ל-Google Sheets
     const response = await sheets.spreadsheets.values.append({
       spreadsheetId: SPREADSHEET_ID,
-      range: `${sheetName}!A1`, // שמירת הנתונים בגיליון מסוים
+      range: `${sheetName}!A1`,
       valueInputOption: "USER_ENTERED",
       resource: {
         values: [
@@ -25,16 +25,16 @@ export const saveToGoogleSheet = async (data, sheetName) => {
             data.fullName || "לא צוין שם",
             data.phone || "לא צוין טלפון",
             data.email || "לא צוין אימייל",
-            data.notes || "אין הערות",
+            data.giftToWorld || "לא צוין כישרון",
+            data.location || "לא צוין איזור",
           ],
         ],
       },
     });
 
-    console.log("Response from Google Sheets API:", response.data);
     return response.status === 200;
   } catch (error) {
-    console.error("Error saving to Google Sheets:", error);
+    console.error("שגיאה בשמירת נתונים ב-Google Sheets:", error);
     return false;
   }
 };
