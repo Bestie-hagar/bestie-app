@@ -12,7 +12,7 @@ export const saveToGoogleSheet = async (data, sheetType) => {
     const sheets = google.sheets({ version: "v4", auth });
 
     // מזהה הגיליון (Spreadsheet ID)
-    const spreadsheetId = "1bG_nAGcorpO6LAPsWhtl4QXJjVvc7umafgmTcDJyAR4";
+    const spreadsheetId = "1c2bce60da44ca5c084cfdfab146218f0629525a";
 
     // הגדרת הטווח לפי הסוג
     const range =
