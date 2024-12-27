@@ -1,10 +1,14 @@
 // src/services/telegramService.js
 export const sendTelegramNotification = async (orderDetails) => {
+  // שורת בדיקה - תדפיס את הטוקן כדי שנראה אם הוא מגיע
+  console.log("בדיקת טוקן:", process.env.NEXT_PUBLIC_TELEGRAM_BOT_TOKEN);
+  
   // Using environment variable for the token
-  const TELEGRAM_TOKEN = process.env.NEXT_PUBLIC_TELEGRAM_BOT_TOKEN;
+  const TELEGRAM_TOKEN = process.env.NEXT_PUBLIC_TELEGRAM_BOT_TOKEN || "7640348565:AAHnBqQVMlbClq7VbydzVYPEHSEzx6qA5Vo";
   // Chat ID
   const CHAT_ID = "6245779959";
   
+  // שאר הקוד נשאר אותו דבר...
   const message = `
 🎉 הזמנה חדשה!
 👤 ${orderDetails.fullName}
