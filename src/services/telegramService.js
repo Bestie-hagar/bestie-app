@@ -1,11 +1,8 @@
 // src/services/telegramService.js
 export const sendTelegramNotification = async (orderDetails) => {
-  // משתמשים במשתנה הסביבה המאובטח
-  const TELEGRAM_TOKEN = process.env.TELEGRAM_BOT_TOKEN;
+  // שימוש במשתנה עם NEXT_PUBLIC
+  const TELEGRAM_TOKEN = process.env.NEXT_PUBLIC_TELEGRAM_BOT_TOKEN;
   const CHAT_ID = "6245779959";
-  
-  // בדיקת דיבאג
-  console.log("Checking if token exists:", !!TELEGRAM_TOKEN);
   
   const message = `
 🎉 הזמנה חדשה!
@@ -21,7 +18,7 @@ export const sendTelegramNotification = async (orderDetails) => {
   `;
 
   try {
-    console.log("Attempting to send telegram message..."); // לוג לבדיקה
+    console.log("Sending telegram notification...");
     const response = await fetch(
       `https://api.telegram.org/bot${TELEGRAM_TOKEN}/sendMessage`,
       {
@@ -37,11 +34,9 @@ export const sendTelegramNotification = async (orderDetails) => {
     if (!response.ok) {
       const errorData = await response.text();
       console.error("Telegram API error:", errorData);
-      return false;
     }
     
-    console.log("Telegram message sent successfully!");
-    return true;
+    return response.ok;
   } catch (error) {
     console.error("Error sending Telegram notification:", error);
     return false;
