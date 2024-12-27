@@ -1,9 +1,9 @@
 import { google } from "googleapis";
 
 // פונקציה לשמירה בגיליון גוגל
-export const saveToGoogleSheet = async (data) => {
+export const saveToGoogleSheet = async (data, sheetType) => {
   try {
-    // מחבר ל-Google באמצעות המפתח שהוכנס כ"סוד" ב-GitHub
+    // התחברות לשירות Google
     const auth = new google.auth.GoogleAuth({
       credentials: JSON.parse(process.env.GOOGLE_CLOUD_CREDENTIALS),
       scopes: ["https://www.googleapis.com/auth/spreadsheets"]
@@ -11,18 +11,22 @@ export const saveToGoogleSheet = async (data) => {
 
     const sheets = google.sheets({ version: "v4", auth });
 
-    // מזהה הגיליון שלך
-    const spreadsheetId = "YOUR_SPREADSHEET_ID"; // שימי פה את ה-ID של הגיליון
+    // מזהה הגיליון (Spreadsheet ID)
+    const spreadsheetId = "1bG_nAGcorpO6LAPsWhtl4QXJjVvc7umafgmTcDJyAR4";
 
-    // איזה עמודות למלא
-    const range = "Sheet1!A1:E1";
+    // הגדרת הטווח לפי הסוג
+    const range =
+      sheetType === "חברות"
+        ? "חברות!A:E" // גיליון חברות
+        : "בסטיז!A:E"; // גיליון בסטיז
 
-    // מה להוסיף לגיליון
-    const values = [
-      [data.fullName, data.phone, data.email, data.giftToWorld, data.location]
-    ];
+    // ערכים להוספה
+    const values =
+      sheetType === "חברות"
+        ? [[data.fullName, data.phone, data.email, data.service, data.notes]]
+        : [[data.fullName, data.phone, data.email, data.giftToWorld, data.location]];
 
-    // מוסיף את הנתונים לגיליון
+    // הוספת נתונים לגיליון
     await sheets.spreadsheets.values.append({
       spreadsheetId,
       range,
@@ -30,10 +34,10 @@ export const saveToGoogleSheet = async (data) => {
       resource: { values }
     });
 
-    console.log("הנתונים נשמרו בהצלחה!");
+    console.log(`הנתונים נשמרו בגיליון ${sheetType} בהצלחה!`);
     return true;
   } catch (error) {
-    console.error("שגיאה בשמירת הנתונים:", error);
+    console.error(`שגיאה בשמירת הנתונים בגיליון ${sheetType}:`, error);
     return false;
   }
 };
