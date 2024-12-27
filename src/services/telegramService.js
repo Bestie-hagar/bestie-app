@@ -1,12 +1,10 @@
 // src/services/telegramService.js
-
 export const sendTelegramNotification = async (orderDetails) => {
-  // הטוקן שלך
-const TELEGRAM_TOKEN = process.env.TELEGRAM_BOT_TOKEN;
-  // ה־Chat ID שלך
+  // Using environment variable for the token
+  const TELEGRAM_TOKEN = process.env.NEXT_PUBLIC_TELEGRAM_BOT_TOKEN;
+  // Chat ID
   const CHAT_ID = "6245779959";
-
-  // הודעת הטלגרם עצמה
+  
   const message = `
 🎉 הזמנה חדשה!
 👤 ${orderDetails.fullName}
@@ -19,9 +17,7 @@ const TELEGRAM_TOKEN = process.env.TELEGRAM_BOT_TOKEN;
 ⏰ ${orderDetails.time}
 💭 הערות: ${orderDetails.notes || "אין"}
   `;
-
   try {
-    // יוצרים בקשת fetch ישירות ל־Telegram Bot API
     const response = await fetch(
       `https://api.telegram.org/bot${TELEGRAM_TOKEN}/sendMessage`,
       {
@@ -34,8 +30,6 @@ const TELEGRAM_TOKEN = process.env.TELEGRAM_BOT_TOKEN;
         })
       }
     );
-
-    // אם חזר "ok" – ההודעה נשלחה בהצלחה
     return response.ok;
   } catch (error) {
     console.error("Error sending Telegram notification:", error);
