@@ -5,12 +5,11 @@ const ServiceCard = ({ service, onSelect }) => {
     if (typeof onSelect === "function") onSelect();
   };
 
-  // מחשבים את המחיר אחרי ההנחה
+  // Calculate the discounted price as 60% of the original price
   const discountedPrice = Math.round(service.investment * 0.6);
 
   return (
     <div className="service-card" onClick={handleClick}>
-      {/* האימוג’י של השירות */}
       <div className="service-icon">{service.icon}</div>
 
       <div className="service-header">
@@ -27,8 +26,12 @@ const ServiceCard = ({ service, onSelect }) => {
           <p className="service-duration">⏱ {service.duration}</p>
         )}
         <p className="service-investment">
-          <span className="original-price">{service.investment} ₪</span>{" "}
-          <span className="discounted-price">{discountedPrice} ₪</span>
+          <span className="original-price">
+            {service.investment > 0 ? `${service.investment} ₪` : "מחיר לא זמין"}
+          </span>{" "}
+          <span className="discounted-price">
+            {discountedPrice > 0 ? `${discountedPrice} ₪` : "מחיר לא זמין"}
+          </span>
         </p>
         {service.extraInfo && <p className="service-extra">{service.extraInfo}</p>}
       </div>
