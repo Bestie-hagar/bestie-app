@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { saveToGoogleSheet } from "../services/googleSheetsService";
 import { sendTelegramNotification } from "../services/telegramService";
 
 const BestieRegistrationModal = ({ isOpen, onClose, form }) => {
@@ -10,25 +9,22 @@ const BestieRegistrationModal = ({ isOpen, onClose, form }) => {
     giftToWorld: "",
     location: "",
   });
+  const [isSubmitted, setIsSubmitted] = useState(false);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     try {
       // שליחת הודעה לטלגרם
+      const telegramMessage = `
+✨ *${formData.fullName}* רוצה להצטרף לבסטי! ✨
+📱 טלפון: ${formData.phone}
+📧 אימייל: ${formData.email}
+🎨 כישרונות: ${formData.giftToWorld}
+📍 אזור פעילות: ${formData.location || "לא צויין"}
+      `;
       const telegramSuccess = await sendTelegramNotification({
-        fullName: formData.fullName,
-        phone: formData.phone,
-        email: formData.email,
-        service: {
-          title: "בקשת הצטרפות לבסטי",
-        },
-        notes: `כישרון: ${formData.giftToWorld}\nאיזור: ${formData.location}`,
-        isPromo: false,
-        address: "לא רלוונטי",
-        location: "לא רלוונטי",
-        date: "לא רלוונטי",
-        time: "לא רלוונטי",
+        text: telegramMessage,
       });
 
       if (!telegramSuccess) {
@@ -36,19 +32,8 @@ const BestieRegistrationModal = ({ isOpen, onClose, form }) => {
         return;
       }
 
-      // שמירת נתונים בגוגל שיטס
-      const googleSheetsSuccess = await saveToGoogleSheet(
-        formData,
-        "בסטיז" // גיליון "בסטיז" עבור מצטרפים חדשים
-      );
-
-      if (!googleSheetsSuccess) {
-        alert("שגיאה בשמירת הנתונים בגוגל שיטס. נסי שוב מאוחר יותר.");
-        return;
-      }
-
-      alert("בקשתך נשלחה בהצלחה! תודה שהצטרפת למשפחת בסטיז 🎉");
-      onClose(); // סגירת המודל
+      // הצגת מסך אישור
+      setIsSubmitted(true);
     } catch (error) {
       console.error("שגיאה בטיפול בטופס:", error);
       alert("שגיאה כללית. נסי שוב מאוחר יותר.");
@@ -56,6 +41,20 @@ const BestieRegistrationModal = ({ isOpen, onClose, form }) => {
   };
 
   if (!isOpen) return null;
+
+  if (isSubmitted) {
+    return (
+      <div className="modal-overlay">
+        <div className="modal-content">
+          <h2 className="modal-title">תודה על הרשמתך!</h2>
+          <p>הפרטים התקבלו בהצלחה, ניצור איתך קשר בקרוב 🎉</p>
+          <button onClick={onClose} className="glossy-button">
+            סגור
+          </button>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="modal-overlay">
