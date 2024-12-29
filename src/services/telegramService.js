@@ -1,13 +1,21 @@
 export const sendTelegramNotification = async (orderDetails) => {
   const TELEGRAM_TOKEN = process.env.REACT_APP_TELEGRAM_BOT_TOKEN;
-  const CHAT_ID = "6245779959";
+  const CHAT_ID = "6245779959"; // וודאי שה-CHAT_ID נכון
 
+  // בדיקה האם הטוקן קיים
   if (!TELEGRAM_TOKEN) {
     console.error("Telegram token is missing in environment variables.");
     return false;
   }
 
-  const message = orderDetails.message || `
+  // בדיקה האם orderDetails קיים ובמבנה נכון
+  if (!orderDetails || typeof orderDetails !== "object") {
+    console.error("Invalid orderDetails provided:", orderDetails);
+    return false;
+  }
+
+  // בניית ההודעה לשליחה
+  const message = `
 🎉 הזמנה חדשה!
 👤 ${orderDetails.fullName || "לא צויין"}
 📱 ${orderDetails.phone || "לא צויין"}
@@ -21,6 +29,7 @@ export const sendTelegramNotification = async (orderDetails) => {
   `;
 
   try {
+    // קריאה ל-API של Telegram
     const response = await fetch(
       `https://api.telegram.org/bot${TELEGRAM_TOKEN}/sendMessage`,
       {
@@ -33,8 +42,10 @@ export const sendTelegramNotification = async (orderDetails) => {
       }
     );
 
+    // בדיקה אם ה-API מחזיר תקלה
     if (!response.ok) {
-      throw new Error("Telegram API response was not ok");
+      console.error("Telegram API returned an error");
+      return false;
     }
 
     return true;
