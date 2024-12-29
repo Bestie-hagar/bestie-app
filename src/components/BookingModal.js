@@ -13,22 +13,19 @@ const BookingModal = ({
     e.preventDefault();
 
     try {
-      const telegramMessage = `
-🎉 *הזמנה חדשה!* 🎉
-🔧 *שירות*: ${service.title}
-📋 *פרטים*:
-👤 שם מלא: ${formData.fullName || "לא צויין"}
-📱 טלפון: ${formData.phone || "לא צויין"}
-📍 מיקום: ${formData.location || "לא צויין"}
-🏠 כתובת: ${formData.address || "לא צויין"}
-📅 תאריך: ${formData.date || "לא צויין"}
-⏰ שעה: ${formData.time || "לא צויין"}
-💭 הערות: ${formData.notes || "אין"}
-      `;
+      // Prepare orderDetails based on formData
+      const orderDetails = {
+        fullName: formData.fullName || "לא צויין",
+        phone: formData.phone || "לא צויין",
+        location: formData.location || "לא צויין",
+        address: formData.address || "לא צויין",
+        date: formData.date || "לא צויין",
+        time: formData.time || "לא צויין",
+        notes: formData.notes || "אין",
+        service: service.title || "לא צויין" // Assuming service.title holds the selected service
+      };
 
-      const telegramSuccess = await sendTelegramNotification({
-        message: telegramMessage,
-      });
+      const telegramSuccess = await sendTelegramNotification(orderDetails);
 
       if (!telegramSuccess) {
         alert("שגיאה בשליחה לטלגרם. נסי שוב מאוחר יותר.");
