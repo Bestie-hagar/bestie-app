@@ -1,5 +1,4 @@
 import React from "react";
-import { saveToGoogleSheet } from "../services/googleSheetsService";
 import { sendTelegramNotification } from "../services/telegramService";
 
 const BookingModal = ({
@@ -32,22 +31,6 @@ const BookingModal = ({
         return;
       }
 
-      // שמירת נתונים בגוגל שיטס
-      const googleSheetsSuccess = await saveToGoogleSheet(
-        {
-          fullName: formData.fullName,
-          phone: formData.phone,
-          email: formData.email || "לא נמסר",
-          service: service.title,
-          notes: formData.notes
-        },
-        "חברות"
-      );
-
-      if (!googleSheetsSuccess) {
-        alert("שגיאה בשמירת הנתונים בגוגל שיטס. נסי שוב מאוחר יותר.");
-        return;
-      }
 
       alert("ההזמנה נשמרה בהצלחה! תודה שהזמנת מבסטי 🎉");
       onClose(); // סגירת המודל
