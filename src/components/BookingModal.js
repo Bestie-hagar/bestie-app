@@ -7,23 +7,29 @@ const BookingModal = ({
   service,
   formData,
   setFormData,
-  isNewCustomer
+  isNewCustomer,
 }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     try {
-      // שליחת התראה לטלגרם
+      // בניית ההודעה ל-Telegram
+      const telegramMessage = `
+🎉 *הזמנה חדשה!* 🎉
+🔧 *שירות*: ${service.title}
+📋 *פרטים*:
+👤 שם מלא: ${formData.fullName || "לא צויין"}
+📱 טלפון: ${formData.phone || "לא צויין"}
+📍 מיקום: ${formData.location || "לא צויין"}
+🏠 כתובת: ${formData.address || "לא צויין"}
+📅 תאריך: ${formData.date || "לא צויין"}
+⏰ שעה: ${formData.time || "לא צויין"}
+💭 הערות: ${formData.notes || "אין"}
+      `;
+
+      // שליחה ל-Telegram
       const telegramSuccess = await sendTelegramNotification({
-        fullName: formData.fullName,
-        phone: formData.phone,
-        service: service,
-        notes: formData.notes || "אין הערות",
-        isPromo: isNewCustomer,
-        location: formData.location,
-        address: formData.address,
-        date: formData.date,
-        time: formData.time
+        message: telegramMessage,
       });
 
       if (!telegramSuccess) {
@@ -31,7 +37,7 @@ const BookingModal = ({
         return;
       }
 
-
+      // הודעת אישור
       alert("ההזמנה נשמרה בהצלחה! תודה שהזמנת מבסטי 🎉");
       onClose(); // סגירת המודל
     } catch (error) {
@@ -61,7 +67,87 @@ const BookingModal = ({
         </div>
 
         <form onSubmit={handleSubmit} className="booking-form">
-          {/* טופס המילוי */}
+          <div className="form-group">
+            <label>שם מלא</label>
+            <input
+              type="text"
+              value={formData.fullName}
+              onChange={(e) =>
+                setFormData({ ...formData, fullName: e.target.value })
+              }
+              required
+            />
+          </div>
+          <div className="form-group">
+            <label>טלפון</label>
+            <input
+              type="text"
+              value={formData.phone}
+              onChange={(e) =>
+                setFormData({ ...formData, phone: e.target.value })
+              }
+              required
+            />
+          </div>
+          <div className="form-group">
+            <label>מיקום</label>
+            <input
+              type="text"
+              value={formData.location}
+              onChange={(e) =>
+                setFormData({ ...formData, location: e.target.value })
+              }
+            />
+          </div>
+          <div className="form-group">
+            <label>כתובת</label>
+            <input
+              type="text"
+              value={formData.address}
+              onChange={(e) =>
+                setFormData({ ...formData, address: e.target.value })
+              }
+            />
+          </div>
+          <div className="form-group">
+            <label>תאריך</label>
+            <input
+              type="date"
+              value={formData.date}
+              onChange={(e) =>
+                setFormData({ ...formData, date: e.target.value })
+              }
+              required
+            />
+          </div>
+          <div className="form-group">
+            <label>שעה</label>
+            <input
+              type="time"
+              value={formData.time}
+              onChange={(e) =>
+                setFormData({ ...formData, time: e.target.value })
+              }
+              required
+            />
+          </div>
+          <div className="form-group">
+            <label>הערות</label>
+            <textarea
+              value={formData.notes}
+              onChange={(e) =>
+                setFormData({ ...formData, notes: e.target.value })
+              }
+            />
+          </div>
+          <div className="form-buttons">
+            <button type="submit" className="glossy-button">
+              שליחה
+            </button>
+            <button type="button" onClick={onClose} className="glossy-button">
+              ביטול
+            </button>
+          </div>
         </form>
       </div>
     </div>
