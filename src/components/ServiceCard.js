@@ -5,6 +5,9 @@ const ServiceCard = ({ service, onSelect }) => {
     if (typeof onSelect === "function") onSelect();
   };
 
+  // מחשבים את המחיר אחרי ההנחה
+  const discountedPrice = Math.round(service.investment * 0.6);
+
   return (
     <div className="service-card" onClick={handleClick}>
       {/* האימוג’י של השירות */}
@@ -20,8 +23,13 @@ const ServiceCard = ({ service, onSelect }) => {
 
       <div className="service-details">
         <p>{service.description}</p>
-        {service.duration && <p className="service-duration">⏱ {service.duration}</p>}
-        <p className="service-investment">מחיר: {service.investment}</p>
+        {service.duration && (
+          <p className="service-duration">⏱ {service.duration}</p>
+        )}
+        <p className="service-investment">
+          <span className="original-price">{service.investment} ₪</span>{" "}
+          <span className="discounted-price">{discountedPrice} ₪</span>
+        </p>
         {service.extraInfo && <p className="service-extra">{service.extraInfo}</p>}
       </div>
     </div>
