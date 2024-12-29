@@ -12,23 +12,21 @@ export const sendTelegramNotification = async (orderDetails) => {
     return false;
   }
 
-  const formData = {};
-
   const message = `
     🎉 *הזמנה חדשה!* 🎉
-👤 *שם מלא*: ${formData.fullName || "לא צויין"}
-📱 *טלפון*: ${formData.phone || "לא צויין"}
-📧 *אימייל*: ${formData.email || "לא צויין"}
-🏠 *כתובת*: ${formData.address || "לא צויין"}
+👤 *שם מלא*: ${orderDetails.fullName || "לא צויין"}
+📱 *טלפון*: ${orderDetails.phone || "לא צויין"}
+📧 *אימייל*: ${orderDetails.email || "לא צויין"}
+🏠 *כתובת*: ${orderDetails.address || "לא צויין"}
 📍 *מיקום*: ${
-        formData.location === "home"
+        orderDetails.location === "home"
           ? "בבית 🏡"
-          : formData.location === "outside"
+          : orderDetails.location === "outside"
           ? "בחוץ 🌳"
           : "לא צויין"
       }
-🎁 *שירות מבוקש*: ${formData.service || "לא צויין"}
-💭 *הערות*: ${formData.notes || "אין"}
+🎁 *שירות מבוקש*: ${orderDetails.service || "לא צויין"}
+💭 *הערות*: ${orderDetails.notes || "אין"}
       `;
   try {
     const response = await fetch(
