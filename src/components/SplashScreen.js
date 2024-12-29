@@ -6,8 +6,9 @@ const SplashScreen = ({ onComplete }) => {
   useEffect(() => {
     const timer = setTimeout(() => {
       setIsAnimating(false);
-      setTimeout(onComplete, 600); // עוד חצי שנייה לתת לאנימציה להסתיים
+      setTimeout(onComplete, 600); // חצי שנייה לסיום האנימציה
     }, 3000);
+
     return () => clearTimeout(timer);
   }, [onComplete]);
 
@@ -15,14 +16,14 @@ const SplashScreen = ({ onComplete }) => {
     <div className={`splash-screen ${!isAnimating ? "fade-out" : ""}`}>
       {/* באנר המבצע */}
       <div className="banner">
-        <p>🎉 מבצע השקה עד 31.1.25! 🎉</p>
+        <p>🎉 מבצע השקה - 40% הנחה על כל השירותים עד 31.1.25! 🎉</p>
       </div>
 
-      {/* עננים משני הצדדים, מאחורי הטקסט */}
+      {/* עננים משני הצדדים */}
       <div className="splash-cloud cloud-left"></div>
       <div className="splash-cloud cloud-right"></div>
 
-      {/* התוכן (לוגו וכותרות) */}
+      {/* התוכן */}
       <div className="splash-content">
         <img src="/bestie-logo.png" alt="Bestie Logo" className="splash-logo" />
         <h1>I GOT YOU, BESTIE</h1>
