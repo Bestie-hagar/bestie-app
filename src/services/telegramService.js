@@ -1,5 +1,5 @@
 export const sendTelegramNotification = async (orderDetails) => {
-  const TELEGRAM_TOKEN = "7571403492:AAF2gwAyi6gSTWc8cFHCTsLEBgIT3qe03OY"; // Replace with the new token provided
+  const TELEGRAM_TOKEN = process.env.REACT_APP_TELEGRAM_BOT_TOKEN;
   const CHAT_ID = "6245779959"; // כאן הוסיפי את הצ'אט ID
 
   if (!TELEGRAM_TOKEN) {
@@ -12,13 +12,24 @@ export const sendTelegramNotification = async (orderDetails) => {
     return false;
   }
 
-  const message = `
-    🎉 הזמנה חדשה!
-    👤 שם: ${orderDetails.fullName || "לא צויין"}
-    📱 טלפון: ${orderDetails.phone || "לא צויין"}
-    💭 הערות: ${orderDetails.notes || "אין"}
-  `;
+  const formData = {};
 
+  const message = `
+    🎉 *הזמנה חדשה!* 🎉
+👤 *שם מלא*: ${formData.fullName || "לא צויין"}
+📱 *טלפון*: ${formData.phone || "לא צויין"}
+📧 *אימייל*: ${formData.email || "לא צויין"}
+🏠 *כתובת*: ${formData.address || "לא צויין"}
+📍 *מיקום*: ${
+        formData.location === "home"
+          ? "בבית 🏡"
+          : formData.location === "outside"
+          ? "בחוץ 🌳"
+          : "לא צויין"
+      }
+🎁 *שירות מבוקש*: ${formData.service || "לא צויין"}
+💭 *הערות*: ${formData.notes || "אין"}
+      `;
   try {
     const response = await fetch(
       `https://api.telegram.org/bot${TELEGRAM_TOKEN}/sendMessage`,
