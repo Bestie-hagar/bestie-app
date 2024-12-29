@@ -1,5 +1,5 @@
 export const sendTelegramNotification = async (orderDetails) => {
-  const TELEGRAM_TOKEN = process.env.REACT_APP_TELEGRAM_BOT_TOKEN;
+  const TELEGRAM_TOKEN = "7571403492:AAF2gwAyi6gSTWc8cFHCTsLEBgIT3qe03OY"; // Replace with the new token provided
   const CHAT_ID = "6245779959"; // כאן הוסיפי את הצ'אט ID
 
   if (!TELEGRAM_TOKEN) {
