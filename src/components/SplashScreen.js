@@ -6,19 +6,18 @@ const SplashScreen = ({ onComplete }) => {
   useEffect(() => {
     const timer = setTimeout(() => {
       setIsAnimating(false);
-      setTimeout(onComplete, 600); // חצי שנייה לסיום האנימציה
+      setTimeout(onComplete, 600); // מאפשר לאנימציה להסתיים לפני המעבר
     }, 3000);
-
     return () => clearTimeout(timer);
   }, [onComplete]);
 
   return (
-   
-      {/* עננים משני הצדדים */}
+    <div className={`splash-screen ${!isAnimating ? "fade-out" : ""}`}>
+      {/* עננים משני הצדדים, מאחורי הטקסט */}
       <div className="splash-cloud cloud-left"></div>
       <div className="splash-cloud cloud-right"></div>
 
-      {/* התוכן */}
+      {/* התוכן (לוגו וכותרות) */}
       <div className="splash-content">
         <img src="/bestie-logo.png" alt="Bestie Logo" className="splash-logo" />
         <h1>I GOT YOU, BESTIE</h1>
