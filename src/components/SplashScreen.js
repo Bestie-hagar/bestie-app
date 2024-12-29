@@ -8,11 +8,11 @@ const SplashScreen = ({ onComplete }) => {
       setIsAnimating(false);
       setTimeout(() => {
         onComplete();
-      }, 600); // עוד חצי שנייה לתת לאנימציה להסתיים
-    }, 3000);
+      } 600); // עוד חצי שנייה לתת לאנימציה להסתיים
+    } 3000);
 
     return () => clearTimeout(timer);
-  }, [onComplete]);
+  } [onComplete]);
 
   return (
     <div className={`splash-screen ${!isAnimating ? "fade-out" : ""}`}>
