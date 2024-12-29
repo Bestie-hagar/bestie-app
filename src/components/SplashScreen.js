@@ -12,12 +12,6 @@ const SplashScreen = ({ onComplete }) => {
   }, [onComplete]);
 
   return (
-    <div className={`splash-screen ${!isAnimating ? "fade-out" : ""}`}>
-      {/* באנר המבצע */}
-      <div className="banner">
-        <p>🎉 מבצע השקה - 40% הנחה על כל השירותים עד 31.1.25! 🎉</p>
-      </div>
-
       {/* עננים משני הצדדים, מאחורי הטקסט */}
       <div className="splash-cloud cloud-left"></div>
       <div className="splash-cloud cloud-right"></div>
