@@ -12,6 +12,7 @@ const SplashScreen = ({ onComplete }) => {
   }, [onComplete]);
 
   return (
+    <div className={`splash-screen ${!isAnimating ? "fade-out" : ""}`}>
       {/* עננים משני הצדדים, מאחורי הטקסט */}
       <div className="splash-cloud cloud-left"></div>
       <div className="splash-cloud cloud-right"></div>
