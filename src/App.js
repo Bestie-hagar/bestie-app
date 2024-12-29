@@ -177,7 +177,7 @@ function App() {
         onClose={() => setShowConfirmation(false)}
         isNewCustomer={isNewCustomer}
       />
-
+פעם ראשונה שלי, בא לי 40% הנחה
       {/* המודל להצטרפות לבסטי */}
       <BestieRegistrationModal
         isOpen={showBestieRegistration}
