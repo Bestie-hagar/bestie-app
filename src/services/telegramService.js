@@ -13,21 +13,22 @@ export const sendTelegramNotification = async (orderDetails) => {
   }
 
   const message = `
-    🎉 *הזמנה חדשה!* 🎉
-👤 *שם מלא*: ${orderDetails.fullName || "לא צויין"}
-📱 *טלפון*: ${orderDetails.phone || "לא צויין"}
-📧 *אימייל*: ${orderDetails.email || "לא צויין"}
-🏠 *כתובת*: ${orderDetails.address || "לא צויין"}
+🎉 *הזמנה חדשה!* 🎉
+👤 *שם מלא*: ${orderDetails.fullName}
+📱 *טלפון*: ${orderDetails.phone}
+📧 *אימייל*: ${orderDetails.email}
+🏠 *כתובת*: ${orderDetails.address}
 📍 *מיקום*: ${
-        orderDetails.location === "home"
-          ? "בבית 🏡"
-          : orderDetails.location === "outside"
-          ? "בחוץ 🌳"
-          : "לא צויין"
+  orderDetails.location === "home"
+    ? "בבית 🏡"
+    : orderDetails.location === "outside"
+    ? "בחוץ 🌳"
+    : ""
+}
+🎁 *שירות מבוקש*: ${orderDetails.service}
+💭 *הערות*: ${orderDetails.notes}
+`;
       }
-🎁 *שירות מבוקש*: ${orderDetails.service || "לא צויין"}
-💭 *הערות*: ${orderDetails.notes || "אין"}
-      `;
   try {
     const response = await fetch(
       `https://api.telegram.org/bot${TELEGRAM_TOKEN}/sendMessage`,
