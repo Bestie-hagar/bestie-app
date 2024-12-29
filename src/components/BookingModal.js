@@ -87,11 +87,53 @@ const BookingModal = ({
               onChange={(e) =>
                 setFormData({ ...formData, location: e.target.value })
               }
+              required
             >
               <option value="">בחר מיקום</option>
               <option value="home">בבית</option>
               <option value="outside">בחוץ</option>
             </select>
+          </div>
+          <div className="form-group">
+            <label>כתובת</label>
+            <input
+              type="text"
+              value={formData.address}
+              onChange={(e) =>
+                setFormData({ ...formData, address: e.target.value })
+              }
+            />
+          </div>
+          <div className="form-group">
+            <label>תאריך</label>
+            <input
+              type="date"
+              value={formData.date}
+              onChange={(e) =>
+                setFormData({ ...formData, date: e.target.value })
+              }
+              required
+            />
+          </div>
+          <div className="form-group">
+            <label>שעה</label>
+            <input
+              type="time"
+              value={formData.time}
+              onChange={(e) =>
+                setFormData({ ...formData, time: e.target.value })
+              }
+              required
+            />
+          </div>
+          <div className="form-group">
+            <label>הערות</label>
+            <textarea
+              value={formData.notes}
+              onChange={(e) =>
+                setFormData({ ...formData, notes: e.target.value })
+              }
+            />
           </div>
           <div className="form-buttons">
             <button type="submit" className="glossy-button">
