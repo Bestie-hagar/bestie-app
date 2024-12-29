@@ -22,8 +22,9 @@ const BestieRegistrationModal = ({ isOpen, onClose, form }) => {
 🎨 כישרונות: ${formData.giftToWorld}
 📍 אזור פעילות: ${formData.location || "לא צויין"}
       `;
+
       const telegramSuccess = await sendTelegramNotification({
-        text: telegramMessage,
+        message: telegramMessage,
       });
 
       if (!telegramSuccess) {
