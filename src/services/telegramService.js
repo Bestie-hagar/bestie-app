@@ -26,8 +26,6 @@ export const sendTelegramNotification = async (orderDetails) => {
           : "לא צויין"
       }
 🎁 *שירות מבוקש*: ${orderDetails.service || "לא צויין"}
-📅 *תאריך*: ${orderDetails.date || "לא צויין"}
-⏰ *שעה*: ${orderDetails.time || "לא צויין"}
 💭 *הערות*: ${orderDetails.notes || "אין"}
       `;
   try {
@@ -45,7 +43,7 @@ export const sendTelegramNotification = async (orderDetails) => {
 
     if (!response.ok) {
       const error = await response.json();
-      console.error("Telegram API error:", error);
+      console.error("Telegram API Error:", error.description); // More specific error message
       return false;
     }
 
