@@ -15,7 +15,6 @@ const BestieRegistrationModal = ({ isOpen, onClose, form }) => {
     e.preventDefault();
 
     try {
-      // שליחת הודעה לטלגרם
       const telegramMessage = `
 ✨ *${formData.fullName}* רוצה להצטרף לבסטי! ✨
 📱 טלפון: ${formData.phone}
@@ -32,7 +31,6 @@ const BestieRegistrationModal = ({ isOpen, onClose, form }) => {
         return;
       }
 
-      // הצגת מסך אישור
       setIsSubmitted(true);
     } catch (error) {
       console.error("שגיאה בטיפול בטופס:", error);
