@@ -1,36 +1,25 @@
 export const sendTelegramNotification = async (orderDetails) => {
-  // שימוש במשתנה הסביבה שהגדרת
-  const TELEGRAM_TOKEN = process.env.REACT_APP_TELEGRAM_BOT_TOKEN; // זה משתנה הסביבה שהגדרת
-  const CHAT_ID = "6245779959"; // ודא שה-CHAT_ID תקין ונכון
+  const TELEGRAM_TOKEN = process.env.REACT_APP_TELEGRAM_BOT_TOKEN;
+  const CHAT_ID = "6245779959"; // כאן הוסיפי את הצ'אט ID
 
-  // בדיקה אם הטוקן קיים
   if (!TELEGRAM_TOKEN) {
     console.error("Telegram token is missing in environment variables.");
     return false;
   }
 
-  // בדיקה אם הפרטים שהוזנו תקינים
   if (!orderDetails || typeof orderDetails !== "object") {
     console.error("Invalid orderDetails provided:", orderDetails);
     return false;
   }
 
-  // יצירת הודעת טקסט
   const message = `
-🎉 הזמנה חדשה!
-👤 שם מלא: ${orderDetails.fullName || "לא צויין"}
-📱 טלפון: ${orderDetails.phone || "לא צויין"}
-🎁 שירות: ${orderDetails.serviceTitle || "לא צויין"}
-💰 ${orderDetails.isPromo ? "מחיר מבצע!" : "מחיר רגיל"}
-📍 מיקום: ${orderDetails.location === "home" ? "בבית" : "בחוץ"}
-🏠 כתובת: ${orderDetails.address || "לא צויין"}
-📅 תאריך: ${orderDetails.date || "לא צויין"}
-⏰ שעה: ${orderDetails.time || "לא צויין"}
-💭 הערות: ${orderDetails.notes || "אין"}
+    🎉 הזמנה חדשה!
+    👤 שם: ${orderDetails.fullName || "לא צויין"}
+    📱 טלפון: ${orderDetails.phone || "לא צויין"}
+    💭 הערות: ${orderDetails.notes || "אין"}
   `;
 
   try {
-    // שליחת ההודעה ל-Telegram
     const response = await fetch(
       `https://api.telegram.org/bot${TELEGRAM_TOKEN}/sendMessage`,
       {
@@ -44,7 +33,9 @@ export const sendTelegramNotification = async (orderDetails) => {
     );
 
     if (!response.ok) {
-      throw new Error("Telegram API response was not ok");
+      const error = await response.json();
+      console.error("Telegram API error:", error);
+      return false;
     }
 
     return true;
