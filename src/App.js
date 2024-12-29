@@ -103,7 +103,7 @@ function App() {
             checked={isNewCustomer}
             onChange={(e) => setIsNewCustomer(e.target.checked)}
           />
-          אני מצטרפת חדשה (מחיר מבצע)
+          אני חדשה (סמני ל40% הנחה)
         </label>
       </div>
 
