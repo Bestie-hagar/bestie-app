@@ -26,6 +26,8 @@ export const sendTelegramNotification = async (orderDetails) => {
           : "לא צויין"
       }
 🎁 *שירות מבוקש*: ${orderDetails.service || "לא צויין"}
+📅 *תאריך*: ${orderDetails.date || "לא צויין"}
+⏰ *שעה*: ${orderDetails.time || "לא צויין"}
 💭 *הערות*: ${orderDetails.notes || "אין"}
       `;
   try {
