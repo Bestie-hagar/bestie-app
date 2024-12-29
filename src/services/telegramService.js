@@ -1,25 +1,22 @@
-// src/services/telegramService.js
-
 export const sendTelegramNotification = async (orderDetails) => {
-  // במקום הטוקן המפורש, נקרא למשתנה הסביבה
   const TELEGRAM_TOKEN = process.env.REACT_APP_TELEGRAM_BOT_TOKEN;
-  const CHAT_ID = "6245779959"; // אם גם את זה תרצי להחביא, אפשר דומה.
+  const CHAT_ID = "6245779959";
 
   if (!TELEGRAM_TOKEN) {
     console.error("Telegram token is missing in environment variables.");
     return false;
   }
 
-  const message = `
+  const message = orderDetails.message || `
 🎉 הזמנה חדשה!
-👤 ${orderDetails.fullName}
-📱 ${orderDetails.phone}
-🎁 ${orderDetails.service.title}
+👤 ${orderDetails.fullName || "לא צויין"}
+📱 ${orderDetails.phone || "לא צויין"}
+🎁 ${orderDetails.serviceTitle || "לא צויין"}
 💰 ${orderDetails.isPromo ? "מחיר מבצע!" : "מחיר רגיל"}
 📍 ${orderDetails.location === "home" ? "בבית" : "בחוץ"}
-🏠 ${orderDetails.address}
-📅 ${orderDetails.date}
-⏰ ${orderDetails.time}
+🏠 ${orderDetails.address || "לא צויין"}
+📅 ${orderDetails.date || "לא צויין"}
+⏰ ${orderDetails.time || "לא צויין"}
 💭 הערות: ${orderDetails.notes || "אין"}
   `;
 
@@ -31,11 +28,16 @@ export const sendTelegramNotification = async (orderDetails) => {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           chat_id: CHAT_ID,
-          text: message
-        })
+          text: message,
+        }),
       }
     );
-    return response.ok;
+
+    if (!response.ok) {
+      throw new Error("Telegram API response was not ok");
+    }
+
+    return true;
   } catch (error) {
     console.error("Error sending Telegram notification:", error);
     return false;
