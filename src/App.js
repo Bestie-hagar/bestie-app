@@ -48,26 +48,35 @@ function App() {
 
   const handleBookingSubmit = async (e) => {
     e.preventDefault();
+    
+    // בדיקת תקינות
+    if (!formData.fullName || !formData.phone || !formData.date || !formData.time) {
+        alert('נא למלא את כל השדות החובה');
+        return;
+    }
+
     const orderDetails = {
-      fullName: formData.fullName,
-      phone: formData.phone,
-      address: formData.address,
-      location: formData.location,
-      date: formData.date,
-      time: formData.time,
-      notes: formData.notes,
-      service: selectedService,
-      isPromo: isNewCustomer
+        fullName: formData.fullName,
+        phone: formData.phone,
+        address: formData.address,
+        location: formData.location,
+        date: formData.date,
+        time: formData.time,
+        notes: formData.notes,
+        service: selectedService?.name,
+        isPromo: isNewCustomer
     };
-console.log('Form Data:', orderDetails);
+
+    console.log('Sending order:', orderDetails);
+    
     const success = await sendTelegramNotification(orderDetails);
     if (success) {
-      setShowBooking(false);
-      setShowConfirmation(true);
+        setShowBooking(false);
+        setShowConfirmation(true);
     } else {
-      alert("משהו השתבש בשליחה לטלגרם");
+        alert('משהו השתבש בשליחה לטלגרם');
     }
-  };
+};
 
   const closeBookingModal = () => {
     setShowBooking(false);
