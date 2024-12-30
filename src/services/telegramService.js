@@ -1,7 +1,7 @@
 export const sendTelegramNotification = async (orderDetails) => {
-  const TELEGRAM_TOKEN = "7571403492:AAF2gwAyi6gSTWc8cFHCTsLEBgIT3qe03OY"; // Updated token
-  const CHAT_ID = "6245779959"; // כאן הוסיפי את הצ'אט ID
-
+  const TELEGRAM_TOKEN = process.env.REACT_APP_TELEGRAM_BOT_TOKEN;
+  const CHAT_ID = "6245779959"; // Chat ID
+  console.log("TELEGRAM_TOKEN:", TELEGRAM_TOKEN); // Debugging line
   if (!TELEGRAM_TOKEN) {
     console.error("Telegram token is missing in environment variables.");
     return false;
