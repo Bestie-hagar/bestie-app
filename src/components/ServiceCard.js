@@ -1,14 +1,13 @@
 import React from "react";
-import Pricing from "./Pricing"; // Import the Pricing component
 
 const ServiceCard = ({ service, onSelect }) => {
   const handleClick = () => {
     if (typeof onSelect === "function") onSelect();
   };
 
-  // מחשבים את המחיר אחרי ההנחה
-  const originalPrice = service.investment; // Use the original investment value
-  const discountedPrice = Math.round(originalPrice * 0.6); // Calculate discounted price
+  // Try parsing the original price to float; default to 0 if it fails
+  const originalPrice = parseFloat(service.investment.replace(/[^0-9.-]+/g, "")) || 0;
+  const discountedPrice = originalPrice ? Math.round(originalPrice * 0.6) : null; // Calculate discounted price only if original exists
 
   return (
     <div className="service-card" onClick={handleClick}>
@@ -28,8 +27,12 @@ const ServiceCard = ({ service, onSelect }) => {
         {service.duration && (
           <p className="service-duration">⏱ {service.duration}</p>
         )}
-        {/* Use the Pricing component */}
-        <Pricing originalPrice={originalPrice} discountedPrice={discountedPrice} />
+        {/* Only show prices if they are valid */}
+        <p className="service-investment">
+          {originalPrice > 0 && <span className="original-price">{originalPrice} ₪</span>}
+          {discountedPrice !== null && discountedPrice < originalPrice &&
+            <span className="discounted-price">{discountedPrice} ₪</span>}
+        </p>
         {service.extraInfo && <p className="service-extra">{service.extraInfo}</p>}
       </div>
     </div>
