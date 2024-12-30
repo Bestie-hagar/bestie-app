@@ -1,13 +1,15 @@
 import React, { useState } from "react";
-import { sendTelegramNotification } from "../services/telegramService"; // Import the function
+import { sendTelegramNotification } from "../services/telegramService";
 
 const ConsultationFormModal = ({ isOpen, onClose, form }) => {
   const [formData, setFormData] = useState({
     fullName: "",
     phone: "",
     email: "",
-    painPoints: "",
-    remarks: ""
+    address: "",
+    location: "",
+    service: "",
+    notes: ""
   });
 
   const handleSubmit = async (e) => {
@@ -67,14 +69,4 @@ const ConsultationFormModal = ({ isOpen, onClose, form }) => {
             <button type="submit" className="glossy-button">
               שליחה
             </button>
-            <button type="button" onClick={onClose} className="glossy-button">
-              ביטול
-            </button>
-          </div>
-        </form>
-      </div>
-    </div>
-  );
-};
-
-export default ConsultationFormModal;
+            <button type="button" onClick={onClose} className="glossy-button
