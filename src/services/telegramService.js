@@ -1,6 +1,6 @@
 export const sendTelegramNotification = async (orderDetails) => {
   const TELEGRAM_TOKEN = process.env.REACT_APP_TELEGRAM_BOT_TOKEN;
-  const CHAT_ID = "6245779959";
+  const CHAT_ID = "6245779959"; // כאן הוסיפי את הצ'אט ID
 
   if (!TELEGRAM_TOKEN) {
     console.error("Telegram token is missing in environment variables.");
@@ -18,7 +18,13 @@ export const sendTelegramNotification = async (orderDetails) => {
   📱 *טלפון*: ${orderDetails.phone || 'Not specified'}
   📧 *אימייל*: ${orderDetails.email || 'Not specified'}
   🏠 *כתובת*: ${orderDetails.address || 'Not specified'}
-  📍 *מיקום*: ${orderDetails.location || 'Not specified'}
+  📍 *מיקום*: ${
+    orderDetails.location === "home"
+      ? "בבית 🏡"
+      : orderDetails.location === "outside"
+      ? "בחוץ 🌳"
+      : orderDetails.location || 'Not specified'
+  }
   🎁 *שירות מבוקש*: ${orderDetails.service || 'Not specified'}
   💭 *הערות*: ${orderDetails.notes || 'Not specified'}
   `;
