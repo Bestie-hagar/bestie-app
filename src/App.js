@@ -6,10 +6,8 @@ import {
   services,
   packages,
   ConsultationForm,
-  BestieRegistration
 } from "./services/services";
 
-import BestieRegistrationModal from "./components/BestieRegistrationModal";
 import BookingModal from "./components/BookingModal";
 import ConfirmationModal from "./components/ConfirmationModal";
 import ServiceCard from "./components/ServiceCard";
