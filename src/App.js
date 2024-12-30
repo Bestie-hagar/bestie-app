@@ -44,7 +44,6 @@ function App() {
   // ======================
   // (הוספה) מודל הצטרפות לבסטי
   // ======================
-  const [showBestieRegistration, setShowBestieRegistration] = useState(false);
 
   const handleBookingSubmit = async (e) => {
     e.preventDefault();
@@ -116,15 +115,6 @@ function App() {
         </label>
       </div>
 
-      {/* כאן הכפתור להצטרפות לבסטי */}
-      <div style={{ textAlign: "center", marginBottom: "2rem" }}>
-        <button
-          className="glossy-button"
-          onClick={() => setShowBestieRegistration(true)}
-        >
-          רוצה להיות לבסטי?
-        </button>
-      </div>
 
       {/* רשימת השירותים */}
       <section className="services">
@@ -187,13 +177,7 @@ function App() {
         isNewCustomer={isNewCustomer}
       />
 פעם ראשונה שלי, בא לי 40% הנחה
-      {/* המודל להצטרפות לבסטי */}
-      <BestieRegistrationModal
-        isOpen={showBestieRegistration}
-        onClose={() => setShowBestieRegistration(false)}
-        form={BestieRegistration}
-      />
-    </div>
+    
   );
 }
 
