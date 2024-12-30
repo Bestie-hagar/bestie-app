@@ -16,14 +16,17 @@ const BookingModal = ({
 
     try {
       const notificationData = {
-        fullName: formData.fullName || "",
-        phone: formData.phone || "",
-        email: formData.email || "",
-        address: formData.address || "",
-        location: formData.location || "",
-        service: service.title || "",
-        notes: formData.notes || ""
+        fullName: formData.fullName,
+        phone: formData.phone,
+        email: formData.email,
+        address: formData.address,
+        location: formData.location,
+        service: service.title,
+        notes: formData.notes
       };
+
+      // וידוא שיש נתונים לפני השליחה
+      console.log("Form data before sending:", formData);
 
       // Debug logs
       console.log("Raw Form Data:", formData);
