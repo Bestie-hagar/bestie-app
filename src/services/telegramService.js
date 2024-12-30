@@ -1,5 +1,5 @@
 export const sendTelegramNotification = async (orderDetails) => {
-  const TELEGRAM_TOKEN = process.env.REACT_APP_TELEGRAM_BOT_TOKEN;
+  const TELEGRAM_TOKEN = "YOUR_LAST_WORKING_TOKEN"; // Replace this with the token that worked
   const CHAT_ID = "6245779959"; // Your chat ID
 
   if (!TELEGRAM_TOKEN) {
@@ -14,20 +14,15 @@ export const sendTelegramNotification = async (orderDetails) => {
 
   const message = `
   🎉 *הזמנה חדשה!* 🎉
-  👤 *שם מלא*: ${orderDetails.fullName}
-  📱 *טלפון*: ${orderDetails.phone}
-  📧 *אימייל*: ${orderDetails.email}
-  🏠 *כתובת*: ${orderDetails.address}
-  📍 *מיקום*: ${
-    orderDetails.location === "home"
-      ? "בבית 🏡"
-      : orderDetails.location === "outside"
-      ? "בחוץ 🌳"
-      : ""
-  }
-  🎁 *שירות מבוקש*: ${orderDetails.service}
-  💭 *הערות*: ${orderDetails.notes}
+  👤 *שם מלא*: ${orderDetails.fullName || 'Not specified'}
+  📱 *טלפון*: ${orderDetails.phone || 'Not specified'}
+  📧 *אימייל*: ${orderDetails.email || 'Not specified'}
+  🏠 *כתובת*: ${orderDetails.address || 'Not specified'}
+  📍 *מיקום*: ${orderDetails.location ? (orderDetails.location === "home" ? "בבית 🏡" : "בחוץ 🌳") : 'Not specified'}
+  🎁 *שירות מבוקש*: ${orderDetails.service || 'Not specified'}
+  💭 *הערות*: ${orderDetails.notes || 'Not specified'}
   `;
+  
   try {
     const response = await fetch(
       `https://api.telegram.org/bot${TELEGRAM_TOKEN}/sendMessage`,
