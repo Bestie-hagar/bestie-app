@@ -9,11 +9,32 @@ const ConsultationFormModal = ({ isOpen, onClose, form }) => {
     remarks: ""
   });
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // אפשר לפתוח טופס גוגל בפרה-פיל או לשלוח באימייל/טלגרם
-    window.open("https://docs.google.com/forms/...", "_blank");
-    onClose();
+    
+    // Send form data to the backend
+    const response = await fetch('/api/sendTelegram', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        fullName: formData.fullName,
+        phone: formData.phone,
+        email: formData.email,
+        address: formData.address || "Not specified", // Include address if exists
+        location: formData.location || "Not specified", // Include location if exists
+        service: form.service || "Not specified", // Include service if exists
+        notes: formData.remarks || "Not specified", // Include remarks
+      }),
+    });
+
+    if (response.ok) {
+      alert('Form submitted successfully!');
+      onClose();
+    } else {
+      alert('Failed to submit the form.');
+    }
   };
 
   if (!isOpen) return null;
@@ -50,23 +71,3 @@ const ConsultationFormModal = ({ isOpen, onClose, form }) => {
                     })
                   }
                   required={field.required}
-                />
-              )}
-            </div>
-          ))}
-
-          <div className="form-buttons">
-            <button type="submit" className="glossy-button">
-              שליחה
-            </button>
-            <button type="button" onClick={onClose} className="glossy-button">
-              ביטול
-            </button>
-          </div>
-        </form>
-      </div>
-    </div>
-  );
-};
-
-export default ConsultationFormModal;
