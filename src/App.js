@@ -1,4 +1,3 @@
-// src/App.js
 import React, { useState } from "react";
 import "./styles.css";
 
@@ -17,12 +16,11 @@ import { sendTelegramNotification } from "./services/telegramService";
 
 function App() {
   const [showSplash, setShowSplash] = useState(true);
-
-  // מודל הזמנה
   const [showBooking, setShowBooking] = useState(false);
   const [selectedService, setSelectedService] = useState(null);
-
-  // נתוני הטופס
+  const [isNewCustomer, setIsNewCustomer] = useState(false);
+  const [showConfirmation, setShowConfirmation] = useState(false);
+  
   const [formData, setFormData] = useState({
     fullName: "",
     phone: "",
@@ -33,20 +31,9 @@ function App() {
     notes: ""
   });
 
-  // מצטרפת חדשה?
-  const [isNewCustomer, setIsNewCustomer] = useState(false);
-
-  // מודל אישור
-  const [showConfirmation, setShowConfirmation] = useState(false);
-
-  // ======================
-  // (הוספה) מודל הצטרפות לבסטי
-  // ======================
-
   const handleBookingSubmit = async (e) => {
     e.preventDefault();
     
-    // בדיקת תקינות
     if (!formData.fullName || !formData.phone || !formData.date || !formData.time) {
         alert('נא למלא את כל השדות החובה');
         return;
@@ -73,7 +60,7 @@ function App() {
     } else {
         alert('משהו השתבש בשליחה לטלגרם');
     }
-};
+  };
 
   const closeBookingModal = () => {
     setShowBooking(false);
@@ -88,20 +75,17 @@ function App() {
     });
   };
 
-  // מסך פתיחה
   if (showSplash) {
     return <SplashScreen onComplete={() => setShowSplash(false)} />;
   }
 
   return (
     <div className="app" dir="rtl">
-      {/* (עננים צפים, Header, וכו' – לא משנים) */}
       <header>
         <h1>BESTIES</h1>
         <p>השירות שלא ידעת שאת צריכה</p>
       </header>
 
-      {/* סימון האם מצטרפת חדשה */}
       <div className="toggle-new-customer">
         <label>
           <input
@@ -113,8 +97,6 @@ function App() {
         </label>
       </div>
 
-
-      {/* רשימת השירותים */}
       <section className="services">
         {services.map((service) => (
           <ServiceCard
@@ -128,7 +110,6 @@ function App() {
         ))}
       </section>
 
-      {/* חבילות */}
       <section className="packages">
         <h2>חבילות מיוחדות</h2>
         <div className="packages-grid">
@@ -157,7 +138,6 @@ function App() {
         </div>
       </section>
 
-      {/* מודל הזמנה לשירות */}
       <BookingModal
         isOpen={showBooking}
         service={selectedService}
@@ -168,14 +148,12 @@ function App() {
         onClose={closeBookingModal}
       />
 
-      {/* מודל אישור */}
       <ConfirmationModal
         isOpen={showConfirmation}
         onClose={() => setShowConfirmation(false)}
         isNewCustomer={isNewCustomer}
       />
-פעם ראשונה שלי, בא לי 40% הנחה
-    
+    </div>
   );
 }
 
