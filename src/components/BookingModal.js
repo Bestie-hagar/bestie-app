@@ -16,19 +16,20 @@ const BookingModal = ({
 
     try {
       const notificationData = {
-        fullName: formData.fullName || "לא צוין",
-        phone: formData.phone || "לא צוין",
-        email: formData.email || "לא צוין",
-        address: formData.address || "לא צוין",
-        location: formData.location || "לא צוין",
-        service: service.title || "לא צוין",
-        notes: formData.notes || "אין הערות"
+        fullName: formData.fullName || "",
+        phone: formData.phone || "",
+        email: formData.email || "",
+        address: formData.address || "",
+        location: formData.location || "",
+        service: service.title || "",
+        notes: formData.notes || ""
       };
 
-      console.log("Form Data:", formData);
-      console.log("Notification Data:", notificationData);
-
-      console.log("Sending notification with data:", notificationData);
+      // Debug logs
+      console.log("Raw Form Data:", formData);
+      console.log("Service Data:", service);
+      console.log("Prepared Notification Data:", notificationData);
+      
       const success = await sendTelegramNotification(notificationData);
 
       if (!success) {
