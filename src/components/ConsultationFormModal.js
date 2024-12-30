@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { sendTelegramNotification } from "../services/telegramService";
 
 const ConsultationFormModal = ({ isOpen, onClose, form }) => {
   const [formData, setFormData] = useState({
@@ -7,22 +6,18 @@ const ConsultationFormModal = ({ isOpen, onClose, form }) => {
     phone: "",
     email: "",
     address: "",
-    location: "",
+    location: "home",
     service: "",
     notes: ""
   });
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    
-    // Call the function to send Telegram notification
-    const success = await sendTelegramNotification(formData);
-    if (success) {
-      console.log("Notification sent successfully");
-    } else {
-      console.error("Failed to send notification");
-    }
 
+    const result = await sendTelegramNotification(formData);
+    if (result) {
+      alert("Notification sent successfully!");
+    }
     onClose();
   };
 
@@ -69,4 +64,14 @@ const ConsultationFormModal = ({ isOpen, onClose, form }) => {
             <button type="submit" className="glossy-button">
               שליחה
             </button>
-            <button type="button" onClick={onClose} className="glossy-button
+            <button type="button" onClick={onClose} className="glossy-button">
+              ביטול
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  );
+};
+
+export default ConsultationFormModal;
