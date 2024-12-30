@@ -1,13 +1,14 @@
 import React from "react";
+import Pricing from "./Pricing"; // Import the Pricing component
 
 const ServiceCard = ({ service, onSelect }) => {
   const handleClick = () => {
     if (typeof onSelect === "function") onSelect();
   };
 
-  // Convert the investment to a number for price calculation
-  const investmentValue = parseFloat(service.investment.replace(/[^0-9.-]+/g,"")) || 0;
-  const discountedPrice = Math.round(investmentValue * 0.6);
+  // מחשבים את המחיר אחרי ההנחה
+  const originalPrice = service.investment; // Use the original investment value
+  const discountedPrice = Math.round(originalPrice * 0.6); // Calculate discounted price
 
   return (
     <div className="service-card" onClick={handleClick}>
@@ -27,11 +28,8 @@ const ServiceCard = ({ service, onSelect }) => {
         {service.duration && (
           <p className="service-duration">⏱ {service.duration}</p>
         )}
-        {/* Displaying both the original price and the discounted price */}
-        <p className="service-investment">
-          <span className="original-price">{`${service.investment} ₪`}</span>{" "}
-          <span className="discounted-price">{`${discountedPrice} ₪`}</span>
-        </p>
+        {/* Use the Pricing component */}
+        <Pricing originalPrice={originalPrice} discountedPrice={discountedPrice} />
         {service.extraInfo && <p className="service-extra">{service.extraInfo}</p>}
       </div>
     </div>
