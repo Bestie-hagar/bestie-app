@@ -5,9 +5,9 @@ const ServiceCard = ({ service, onSelect }) => {
     if (typeof onSelect === "function") onSelect();
   };
 
-  // Try parsing the original price to float; default to 0 if it fails
+  // Safe parsing of the original price
   const originalPrice = parseFloat(service.investment.replace(/[^0-9.-]+/g, "")) || 0;
-  const discountedPrice = originalPrice ? Math.round(originalPrice * 0.6) : null; // Calculate discounted price only if original exists
+  const discountedPrice = originalPrice ? Math.round(originalPrice * 0.6) : null; // Calculate discounted price if original exists
 
   return (
     <div className="service-card" onClick={handleClick}>
@@ -27,11 +27,15 @@ const ServiceCard = ({ service, onSelect }) => {
         {service.duration && (
           <p className="service-duration">⏱ {service.duration}</p>
         )}
-        {/* Only show prices if they are valid */}
         <p className="service-investment">
-          {originalPrice > 0 && <span className="original-price">{originalPrice} ₪</span>}
-          {discountedPrice !== null && discountedPrice < originalPrice &&
-            <span className="discounted-price">{discountedPrice} ₪</span>}
+          {discountedPrice !== null && discountedPrice < originalPrice ? (
+            <>
+              <span className="original-price" style={{ textDecoration: 'line-through' }}>{originalPrice} ₪</span>{" "}
+              <span className="discounted-price" style={{ color: 'red', fontWeight: 'bold' }}>{discountedPrice} ₪</span>
+            </>
+          ) : (
+            <span className="original-price">{originalPrice} ₪</span>
+          )}
         </p>
         {service.extraInfo && <p className="service-extra">{service.extraInfo}</p>}
       </div>
