@@ -5,8 +5,8 @@ const ServiceCard = ({ service, onSelect }) => {
     if (typeof onSelect === "function") onSelect();
   };
 
-  // Convert investment to a number to calculate the discounted price
-  const investmentValue = parseFloat(service.investment) || 0;
+  // Convert the investment to a number for price calculation
+  const investmentValue = parseFloat(service.investment.replace(/[^0-9.-]+/g,"")) || 0;
   const discountedPrice = Math.round(investmentValue * 0.6);
 
   return (
@@ -27,9 +27,10 @@ const ServiceCard = ({ service, onSelect }) => {
         {service.duration && (
           <p className="service-duration">⏱ {service.duration}</p>
         )}
+        {/* Displaying both the original price and the discounted price */}
         <p className="service-investment">
-          <span className="original-price">{investmentValue > 0 ? `${investmentValue} ₪` : "מחיר לא זמין"}</span>{" "}
-          <span className="discounted-price">{discountedPrice > 0 ? `${discountedPrice} ₪` : "מחיר לא זמין"}</span>
+          <span className="original-price">{`${service.investment} ₪`}</span>{" "}
+          <span className="discounted-price">{`${discountedPrice} ₪`}</span>
         </p>
         {service.extraInfo && <p className="service-extra">{service.extraInfo}</p>}
       </div>
