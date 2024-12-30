@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { sendTelegramNotification } from "../services/telegramService"; // Import your telegram service
 
 const ConsultationFormModal = ({ isOpen, onClose, form }) => {
   const [formData, setFormData] = useState({
@@ -12,24 +13,21 @@ const ConsultationFormModal = ({ isOpen, onClose, form }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     
-    // Send form data to the backend
-    const response = await fetch('/api/sendTelegram', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        fullName: formData.fullName,
-        phone: formData.phone,
-        email: formData.email,
-        address: formData.address || "Not specified", // Include address if exists
-        location: formData.location || "Not specified", // Include location if exists
-        service: form.service || "Not specified", // Include service if exists
-        notes: formData.remarks || "Not specified", // Include remarks
-      }),
-    });
+    // Prepare order details to send
+    const orderDetails = {
+      fullName: formData.fullName,
+      phone: formData.phone,
+      email: formData.email,
+      address: formData.address || "Not specified", // Include address if exists
+      location: formData.location || "Not specified", // Include location if exists
+      service: form.service || "Not specified", // Include service if exists
+      notes: formData.remarks || "Not specified", // Include remarks
+    };
 
-    if (response.ok) {
+    // Send order details to Telegram
+    const success = await sendTelegramNotification(orderDetails);
+
+    if (success) {
       alert('Form submitted successfully!');
       onClose();
     } else {
@@ -71,3 +69,23 @@ const ConsultationFormModal = ({ isOpen, onClose, form }) => {
                     })
                   }
                   required={field.required}
+                />
+              )}
+            </div>
+          ))}
+
+          <div className="form-buttons">
+            <button type="submit" className="glossy-button">
+              שליחה
+            </button>
+            <button type="button" onClick={onClose} className="glossy-button">
+              ביטול
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  );
+};
+
+export default ConsultationFormModal;
