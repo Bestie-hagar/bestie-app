@@ -59,7 +59,7 @@ function App() {
       service: selectedService,
       isPromo: isNewCustomer
     };
-
+console.log('Form Data:', orderDetails);
     const success = await sendTelegramNotification(orderDetails);
     if (success) {
       setShowBooking(false);
