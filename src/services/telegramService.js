@@ -10,19 +10,13 @@ export const sendTelegramNotification = async (orderDetails) => {
 
   const message = `
 🎉 *הזמנה חדשה!* 🎉
-👤 *שם מלא*: ${orderDetails.fullName || ''}
-📱 *טלפון*: ${orderDetails.phone || ''}
-📧 *אימייל*: ${orderDetails.email || ''}
-🏠 *כתובת*: ${orderDetails.address || ''}
-📍 *מיקום*: ${
-    orderDetails.location === "home" 
-    ? "בבית 🏡" 
-    : orderDetails.location === "outside" 
-    ? "בחוץ 🌳" 
-    : orderDetails.location || ''
-  }
-🎁 *שירות מבוקש*: ${orderDetails.service || ''}
-💭 *הערות*: ${orderDetails.notes || ''}`;
+👤 *שם מלא*: ${orderDetails.fullName}
+📱 *טלפון*: ${orderDetails.phone}
+📧 *אימייל*: ${orderDetails.email}
+🏠 *כתובת*: ${orderDetails.address}
+📍 *מיקום*: ${orderDetails.location === "home" ? "בבית 🏡" : orderDetails.location === "outside" ? "בחוץ 🌳" : orderDetails.location}
+🎁 *שירות מבוקש*: ${orderDetails.service}
+💭 *הערות*: ${orderDetails.notes}`;
 
   try {
     const response = await fetch(
