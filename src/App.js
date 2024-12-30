@@ -122,7 +122,7 @@ function App() {
           className="glossy-button"
           onClick={() => setShowBestieRegistration(true)}
         >
-          רוצים להצטרף לבסטי?
+          רוצה להיות לבסטי?
         </button>
       </div>
 
