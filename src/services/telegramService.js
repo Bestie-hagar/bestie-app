@@ -1,11 +1,7 @@
-export const sendTelegramNotification = async (orderDetails) => {
-  const TELEGRAM_TOKEN = "YOUR_LAST_WORKING_TOKEN"; // Replace this with the token that worked
-  const CHAT_ID = "6245779959"; // Your chat ID
 
-  if (!TELEGRAM_TOKEN) {
-    console.error("Telegram token is missing in environment variables.");
-    return false;
-  }
+export const sendTelegramNotification = async (orderDetails) => {
+  const TELEGRAM_TOKEN = "7571403492:AAF2gwAyi6gSTWc8cFHCTsLEBgIT3qe03OY";
+  const CHAT_ID = "6245779959";
 
   if (!orderDetails || typeof orderDetails !== "object") {
     console.error("Invalid orderDetails provided:", orderDetails);
@@ -13,35 +9,46 @@ export const sendTelegramNotification = async (orderDetails) => {
   }
 
   const message = `
-  🎉 *הזמנה חדשה!* 🎉
-  👤 *שם מלא*: ${orderDetails.fullName || 'Not specified'}
-  📱 *טלפון*: ${orderDetails.phone || 'Not specified'}
-  📧 *אימייל*: ${orderDetails.email || 'Not specified'}
-  🏠 *כתובת*: ${orderDetails.address || 'Not specified'}
-  📍 *מיקום*: ${orderDetails.location ? (orderDetails.location === "home" ? "בבית 🏡" : "בחוץ 🌳") : 'Not specified'}
-  🎁 *שירות מבוקש*: ${orderDetails.service || 'Not specified'}
-  💭 *הערות*: ${orderDetails.notes || 'Not specified'}
-  `;
-  
+🎉 *הזמנה חדשה!* 🎉
+👤 *שם מלא*: ${orderDetails.fullName || ''}
+📱 *טלפון*: ${orderDetails.phone || ''}
+📧 *אימייל*: ${orderDetails.email || ''}
+🏠 *כתובת*: ${orderDetails.address || ''}
+📍 *מיקום*: ${
+    orderDetails.location === "home" 
+    ? "בבית 🏡" 
+    : orderDetails.location === "outside" 
+    ? "בחוץ 🌳" 
+    : orderDetails.location || ''
+  }
+🎁 *שירות מבוקש*: ${orderDetails.service || ''}
+💭 *הערות*: ${orderDetails.notes || ''}`;
+
   try {
     const response = await fetch(
       `https://api.telegram.org/bot${TELEGRAM_TOKEN}/sendMessage`,
       {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: { 
+          "Content-Type": "application/json",
+          "Accept": "application/json"
+        },
         body: JSON.stringify({
           chat_id: CHAT_ID,
           text: message,
+          parse_mode: "Markdown"
         }),
       }
     );
 
+    const data = await response.json();
+
     if (!response.ok) {
-      const error = await response.json();
-      console.error("Telegram API error:", error);
+      console.error("Telegram API error:", data);
       return false;
     }
 
+    console.log("Message sent successfully:", data);
     return true;
   } catch (error) {
     console.error("Error sending Telegram notification:", error);
