@@ -1,0 +1,18 @@
+.pricing-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 10px;
+}
+
+.original-price {
+  text-decoration: line-through;
+  color: #777; /* Gray color for the original price */
+  margin-right: 5px; /* Space between the prices */
+}
+
+.discounted-price {
+  color: red; /* Red color to highlight the discounted price */
+  font-weight: bold; /* Make the discounted price bold */
+  font-size: 1.2rem; /* Increase font size for emphasis */
+}
