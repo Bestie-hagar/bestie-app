@@ -11,26 +11,38 @@ const BestieRegistrationModal = ({ isOpen, onClose, form }) => {
   });
   const [isSubmitted, setIsSubmitted] = useState(false);
 
-  const handleSubmit = async (e) => {
+const handleSubmit = async (e) => {
     e.preventDefault();
+    
+    if (!formData.fullName || !formData.phone) {
+        alert('נא למלא שם וטלפון');
+        return;
+    }
 
     try {
-      const telegramMessage = `
+        const orderDetails = {
+            messageType: 'bestie_application',
+            message: `
 ✨ *${formData.fullName}* רוצה להצטרף לבסטי! ✨
 📱 טלפון: ${formData.phone}
-📧 אימייל: ${formData.email}
-🎨 כישרונות: ${formData.giftToWorld}
-📍 אזור פעילות: ${formData.location || "לא צויין"}
-      `;
+📧 אימייל: ${formData.email || "לא צוין"}
+🎨 כישרונות: ${formData.giftToWorld || "לא צוין"}
+📍 אזור פעילות: ${formData.location || "לא צוין"}
+            `
+        };
 
-      const telegramSuccess = await sendTelegramNotification({
-        message: telegramMessage,
-      });
-
-      if (!telegramSuccess) {
-        alert("שגיאה בשליחה לטלגרם. נסי שוב מאוחר יותר.");
-        return;
-      }
+        const success = await sendTelegramNotification(orderDetails);
+        
+        if (success) {
+            setIsSubmitted(true);
+        } else {
+            alert("שגיאה בשליחה לטלגרם. נסי שוב מאוחר יותר.");
+        }
+    } catch (error) {
+        console.error("שגיאה בטיפול בטופס:", error);
+        alert("שגיאה כללית. נסי שוב מאוחר יותר.");
+    }
+};
 
       setIsSubmitted(true);
     } catch (error) {
