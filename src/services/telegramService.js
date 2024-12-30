@@ -10,13 +10,13 @@ export const sendTelegramNotification = async (orderDetails) => {
 
   // Ensure all required fields exist
   const safeOrderDetails = {
-    fullName: orderDetails.fullName ? orderDetails.fullName : "לא צוין",
-    phone: orderDetails.phone ? orderDetails.phone : "לא צוין",
-    email: orderDetails.email ? orderDetails.email : "לא צוין",
-    address: orderDetails.address ? orderDetails.address : "לא צוין",
-    location: orderDetails.location ? orderDetails.location : "לא צוין",
-    service: orderDetails.service ? orderDetails.service : "לא צוין",
-    notes: orderDetails.notes ? orderDetails.notes : "אין הערות"
+    fullName: orderDetails.fullName === undefined ? "לא צוין" : orderDetails.fullName,
+    phone: orderDetails.phone === undefined ? "לא צוין" : orderDetails.phone,
+    email: orderDetails.email === undefined ? "לא צוין" : orderDetails.email,
+    address: orderDetails.address === undefined ? "לא צוין" : orderDetails.address,
+    location: orderDetails.location === undefined ? "לא צוין" : orderDetails.location,
+    service: orderDetails.service === undefined ? "לא צוין" : orderDetails.service,
+    notes: orderDetails.notes === undefined ? "אין הערות" : orderDetails.notes
   };
 
   // בדיקת הנתונים לפני עיבוד
