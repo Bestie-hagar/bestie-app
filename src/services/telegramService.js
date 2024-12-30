@@ -8,17 +8,38 @@ export const sendTelegramNotification = async (orderDetails) => {
     return false;
   }
 
+  // Ensure all required fields exist
+  const safeOrderDetails = {
+    fullName: orderDetails.fullName || "לא צוין",
+    phone: orderDetails.phone || "לא צוין",
+    email: orderDetails.email || "לא צוין",
+    address: orderDetails.address || "לא צוין",
+    location: orderDetails.location || "לא צוין",
+    service: orderDetails.service,
+    notes: orderDetails.notes || "אין הערות"
+  };
+
+  console.log("Processing order details:", safeOrderDetails);
+
   const message = `
 🎉 *הזמנה חדשה!* 🎉
-👤 *שם מלא*: ${orderDetails.fullName}
-📱 *טלפון*: ${orderDetails.phone}
-📧 *אימייל*: ${orderDetails.email}
-🏠 *כתובת*: ${orderDetails.address}
-📍 *מיקום*: ${orderDetails.location === "home" ? "בבית 🏡" : orderDetails.location === "outside" ? "בחוץ 🌳" : orderDetails.location}
-🎁 *שירות מבוקש*: ${orderDetails.service}
-💭 *הערות*: ${orderDetails.notes}`;
+👤 *שם מלא*: ${safeOrderDetails.fullName}
+📱 *טלפון*: ${safeOrderDetails.phone}
+📧 *אימייל*: ${safeOrderDetails.email}
+🏠 *כתובת*: ${safeOrderDetails.address}
+📍 *מיקום*: ${
+    safeOrderDetails.location === "home" 
+      ? "בבית 🏡" 
+      : safeOrderDetails.location === "outside" 
+        ? "בחוץ 🌳" 
+        : safeOrderDetails.location
+  }
+🎁 *שירות מבוקש*: ${safeOrderDetails.service}
+💭 *הערות*: ${safeOrderDetails.notes}`;
 
   try {
+    console.log("Sending Telegram message:", message);
+    
     const response = await fetch(
       `https://api.telegram.org/bot${TELEGRAM_TOKEN}/sendMessage`,
       {
@@ -36,13 +57,13 @@ export const sendTelegramNotification = async (orderDetails) => {
     );
 
     const data = await response.json();
+    console.log("Telegram API response:", data);
 
     if (!response.ok) {
       console.error("Telegram API error:", data);
       return false;
     }
 
-    console.log("Message sent successfully:", data);
     return true;
   } catch (error) {
     console.error("Error sending Telegram notification:", error);
