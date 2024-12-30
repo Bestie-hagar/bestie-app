@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { sendTelegramNotification } from "../services/telegramService"; // Import your telegram service
+import { sendTelegramNotification } from "../services/telegramService"; // Import the function
 
 const ConsultationFormModal = ({ isOpen, onClose, form }) => {
   const [formData, setFormData] = useState({
@@ -13,26 +13,15 @@ const ConsultationFormModal = ({ isOpen, onClose, form }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     
-    // Prepare order details to send
-    const orderDetails = {
-      fullName: formData.fullName,
-      phone: formData.phone,
-      email: formData.email,
-      address: formData.address || "Not specified", // Include address if exists
-      location: formData.location || "Not specified", // Include location if exists
-      service: form.service || "Not specified", // Include service if exists
-      notes: formData.remarks || "Not specified", // Include remarks
-    };
-
-    // Send order details to Telegram
-    const success = await sendTelegramNotification(orderDetails);
-
+    // Call the function to send Telegram notification
+    const success = await sendTelegramNotification(formData);
     if (success) {
-      alert('Form submitted successfully!');
-      onClose();
+      console.log("Notification sent successfully");
     } else {
-      alert('Failed to submit the form.');
+      console.error("Failed to send notification");
     }
+
+    onClose();
   };
 
   if (!isOpen) return null;
