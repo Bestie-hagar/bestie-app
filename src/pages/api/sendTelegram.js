@@ -12,8 +12,20 @@ export default async function handler(req, res) {
     return res.status(500).json({ success: false, error: 'Configuration error' });
   }
 
-  const message = req.body.message;
-  
+  const { fullName, phone, email, address, location, service, notes } = req.body;
+
+  // Constructing the message with user inputs
+  const message = `
+  🎉 *הזמנה חדשה!* 🎉
+  👤 *שם מלא*: ${fullName || 'Not specified'}
+  📱 *טלפון*: ${phone || 'Not specified'}
+  📧 *אימייל*: ${email || 'Not specified'}
+  🏠 *כתובת*: ${address || 'Not specified'}
+  📍 *מיקום*: ${location || 'Not specified'}
+  🎁 *שירות מבוקש*: ${service || 'Not specified'}
+  💭 *הערות*: ${notes || 'Not specified'}
+  `;
+
   try {
     const response = await fetch(
       `https://api.telegram.org/bot${TELEGRAM_TOKEN}/sendMessage`,
@@ -22,13 +34,15 @@ export default async function handler(req, res) {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           chat_id: CHAT_ID,
-          text: message
-        })
+          text: message,
+        }),
       }
     );
 
     if (!response.ok) {
-      throw new Error('Telegram API response was not ok');
+      const error = await response.json();
+      console.error("Telegram API error:", error);
+      return res.status(500).json({ success: false, error: 'Failed to send message' });
     }
 
     return res.status(200).json({ success: true });
